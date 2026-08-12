@@ -1,0 +1,109 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Prism Moment — 실사 레퍼런스 헌팅 보드 (v2)</title><style>
+:root{color-scheme:light dark;--bg:#f4f4f2;--surf:#fcfcfb;--ink:#0b0b0b;--sub:#52514e;--mut:#8a8880;--line:#e4e3dd;--blue:#2a78d6;--green:#0ca30c;--red:#d03b3b;--vio:#7c3aed}
+@media(prefers-color-scheme:dark){:root{--bg:#0d0d0d;--surf:#1a1a19;--ink:#fff;--sub:#c3c2b7;--line:#2c2c2a}}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;padding:26px 18px 64px}
+.wrap{max-width:1000px;margin:0 auto}
+.kicker{font-size:12px;font-weight:800;letter-spacing:.09em;color:var(--vio);text-transform:uppercase}
+h1{font-size:26px;margin:5px 0 6px} .lead{font-size:14.5px;color:var(--sub);margin:0 0 4px}
+.meta{font-size:12px;color:var(--mut);margin-bottom:16px}
+.rule{background:#0b0b0c;color:#fff;border-radius:14px;padding:16px 18px;margin:12px 0 8px}
+.rule .e{font-size:11px;letter-spacing:.13em;text-transform:uppercase;color:#b9a9f5;font-weight:800}
+.rule h3{margin:5px 0 6px;font-size:16px}
+.rule p{margin:0;font-size:13px;color:#d9d9de} .rule b{color:#fff}
+.rule code{background:#26262c;color:#9fd8ff;border-radius:5px;padding:1px 7px;font-size:12.5px}
+.legend{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0 4px}
+.pill{font-size:11.5px;font-weight:700;border:1px solid var(--line);border-radius:20px;padding:5px 12px;color:var(--sub);background:var(--surf)}
+h2{font-size:17px;margin:28px 0 3px;display:flex;align-items:center;gap:9px}
+.bnum{width:24px;height:24px;border-radius:7px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex:none}
+.bnum.no{background:var(--red)}
+.bdesc{font-size:12.5px;color:var(--mut);margin:0 0 12px 33px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media(max-width:680px){.cards{grid-template-columns:1fr}}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:14px 15px;display:flex;flex-direction:column;gap:7px}
+.card.ok{outline:2px solid var(--green);outline-offset:-2px}
+.card.no{outline:2px solid var(--red);outline-offset:-2px;opacity:.92}
+.card .src{font-size:11px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.04em}
+.card a.t{font-size:14px;font-weight:700;color:var(--blue);text-decoration:none;line-height:1.35;word-break:break-word}
+.card a.t:hover{text-decoration:underline}
+.card .steal{font-size:12.5px;color:var(--sub)}.card .steal b{color:var(--ink)}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:2px}
+.tag{font-size:10.5px;font-weight:800;border-radius:5px;padding:2px 7px;color:#fff}
+.t-dev{background:var(--vio)}.t-base{background:#334155}.t-ring{background:var(--blue)}.t-ref{background:var(--green)}.t-no{background:var(--red)}
+.northstar{background:var(--surf);border:1px solid var(--line);border-left:4px solid var(--vio);border-radius:11px;padding:14px 16px;font-size:13px;color:var(--sub);margin:10px 0}
+.northstar b{color:var(--ink)}
+.usebox{background:var(--surf);border:1px solid var(--line);border-radius:12px;padding:6px 18px;margin-top:8px}
+.usebox div{padding:10px 0;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--sub)}.usebox div:last-child{border:0}.usebox b{color:var(--ink)}
+.usebox code{background:var(--bg);border:1px solid var(--line);border-radius:5px;padding:1px 6px;font-size:12px;color:var(--vio)}
+.warn{background:rgba(208,59,59,.06);border:1px solid var(--line);border-left:4px solid var(--red);border-radius:11px;padding:12px 15px;font-size:12.5px;color:var(--sub);margin-top:16px}
+.warn b{color:var(--ink)}
+.foot{font-size:11.5px;color:var(--mut);margin-top:26px;border-top:1px solid var(--line);padding-top:14px;line-height:1.65}
+</style></head><body><div class="wrap">
+<div class="kicker">SLBS · PRSM Clear Line · iPhone 18 · v2 (톤 교정)</div>
+<h1>Prism Moment — 실사 레퍼런스 헌팅 보드</h1>
+<p class="lead">일반 검색은 80%가 밝습니다. 이 보드는 <b>검정 배경으로 pre-filter된 링크</b>만 씁니다.</p>
+<p class="meta">2026-08 재큐레이션 · 밝은 톤 링크는 하단 "✕ 반례"로 격리 · 컨셉 원페이저 v3와 세트</p>
+
+<div class="rule">
+ <div class="e">가장 중요한 검색 규칙</div>
+ <h3>"prism / rainbow / holographic"만 치면 밝은 게 쏟아진다</h3>
+ <p>대중적 미감이 밝은 무지개라, 일반 검색·핀터레스트 피드는 우리 톤과 반대입니다. 반드시 <b>검색어에 <code>black background</code>를 붙이거나</b>, 스톡 사이트의 <b>배경색 필터를 "검정"</b>으로 거세요(iStock: 세분화→배경→검정). 그래야 "어둠 속 한 줄기 분광"이 나옵니다.</p>
+</div>
+
+<div class="legend">
+ <span class="pill"><span class="tag t-dev" style="padding:1px 6px">장치</span> 스펙트럼 한 줄기</span>
+ <span class="pill"><span class="tag t-base" style="padding:1px 6px">베이스</span> 그래파이트·다크</span>
+ <span class="pill"><span class="tag t-ring" style="padding:1px 6px">초점</span> 마그세이프 링</span>
+ <span class="pill"><span class="tag t-ref" style="padding:1px 6px">직접</span> 온-브리프</span>
+ <span class="pill"><span class="tag t-no" style="padding:1px 6px">반례</span> 피할 톤</span>
+</div>
+
+<div class="northstar"><b>노스스타(개념 원형):</b> Pink Floyd 〈The Dark Side of the Moon〉 — 검은 배경, 백색광 한 줄기가 프리즘을 통과해 스펙트럼으로 갈라짐. 이게 Prism Moment의 원형입니다. 아래 레퍼런스도 전부 "이 감각에 얼마나 가까운가"로 골랐습니다.</div>
+
+<h2><span class="bnum">A</span>검정 배경 프리즘·분광 (pre-filtered)</h2>
+<p class="bdesc">검색어/필터에 "black background"가 박혀 있어 <b>어두운 결과만</b> 나오는 페이지. 여기서 "한 줄기가 갈라지는" 컷만 셀렉.</p>
+<div class="cards">
+ <div class="card ok"><span class="src">Dreamstime · 검정필터</span><a class="t" href="https://www.dreamstime.com/photos-images/prism-black-background.html" target="_blank" rel="noopener">Prism — Black Background (4,374컷)</a><span class="steal"><b>✓ 훔칠 것:</b> 검은 바탕 위 프리즘 실광. 페이지 전체가 다크라 톤 오염이 적음. 한 줄기·사선 위주로 선별.</span><div class="tags"><span class="tag t-dev">장치</span><span class="tag t-base">베이스</span></div></div>
+ <div class="card ok"><span class="src">Shutterstock · 검정필터</span><a class="t" href="https://www.shutterstock.com/search/prism-reflections-black-background" target="_blank" rel="noopener">Prism Reflections — Black Background (8,411컷)</a><span class="steal"><b>✓ 훔칠 것:</b> 검은 배경 프리즘 반사·분광. 굴절광이 "선"으로 지나가는 컷 위주.</span><div class="tags"><span class="tag t-dev">장치</span><span class="tag t-base">베이스</span></div></div>
+ <div class="card ok"><span class="src">Dreamstime · 검정필터</span><a class="t" href="https://www.dreamstime.com/photos-images/iridescent-prism-light-effect-black-background.html" target="_blank" rel="noopener">Iridescent Prism Light Effect — Black BG (138컷)</a><span class="steal"><b>✓ 훔칠 것:</b> 검정 위 프리즘 라이트 이펙트. 후반 screen 합성용 오버레이 소스로 바로 쓸 톤.</span><div class="tags"><span class="tag t-dev">장치</span></div></div>
+ <div class="card ok"><span class="src">Freepik · 특정컷</span><a class="t" href="https://www.freepik.com/premium-photo/rgb-crystal-prism-light-dispersion-black-background_31903789.htm" target="_blank" rel="noopener">RGB Crystal Prism Dispersion on Black</a><span class="steal"><b>✓ 훔칠 것:</b> 검은 배경 크리스탈 프리즘이 RGB로 분광하는 딱 그 컷. Prism Moment에 가장 근접한 단일 레퍼런스.</span><div class="tags"><span class="tag t-dev">장치</span><span class="tag t-ring">초점</span></div></div>
+</div>
+
+<h2><span class="bnum">B</span>다크 베이스 무드</h2>
+<p class="bdesc">그래파이트·니어블랙 바탕 무드. <b>어두운 것만</b> — 밝은 홀로그래픽은 반례로 뺐습니다.</p>
+<div class="cards">
+ <div class="card ok"><span class="src">YouWorkForThem · 앵커</span><a class="t" href="https://www.youworkforthem.com/graphic/E16217/iridescent-noir-dark-holographic-backgrounds" target="_blank" rel="noopener">Iridescent Noir — Dark Holographic</a><span class="steal"><b>✓ 훔칠 것:</b> "누아르" — 검은 바탕에 색이 은은하게 스며든 어두운 컷. 우리 베이스톤과 거의 일치. <b>색 강한 컷은 제외.</b></span><div class="tags"><span class="tag t-base">베이스</span></div></div>
+ <div class="card ok"><span class="src">Dreamstime · 다크</span><a class="t" href="https://www.dreamstime.com/illustration/prism-refraction-spectrum-dark-background.html" target="_blank" rel="noopener">Prism Refraction Spectrum — Dark Background</a><span class="steal"><b>✓ 훔칠 것:</b> 어두운 배경 위 분광 스펙트럼 일러스트. 그래파이트 베이스 + 한 줄기 방향의 참고.</span><div class="tags"><span class="tag t-base">베이스</span><span class="tag t-dev">장치</span></div></div>
+</div>
+
+<h2><span class="bnum">C</span>직접 온-브리프 — 클리어 케이스 경쟁사</h2>
+<p class="bdesc">같은 제품군(투명 마그세이프) 실제 히어로 촬영. <b>구도·조명·링 처리</b> 벤치마크. 복제 아님.</p>
+<div class="cards">
+ <div class="card"><span class="src">Mous</span><a class="t" href="https://www.mous.co/products/protective-clear-phone-case-magnetic-clarity" target="_blank" rel="noopener">Mous — Clarity MagSafe</a><span class="steal"><b>훔칠 것:</b> 투명 소재를 "고급"으로 보이게 하는 조명. 여기에 <b>스펙트럼 한 줄기</b>를 얹으면 차이가 명확.</span><div class="tags"><span class="tag t-ref">직접</span><span class="tag t-ring">초점</span></div></div>
+ <div class="card"><span class="src">RHINOSHIELD</span><a class="t" href="https://rhinoshield.io/products/clear" target="_blank" rel="noopener">RHINOSHIELD — Clear MagSafe</a><span class="steal"><b>훔칠 것:</b> 마그세이프 링을 시각 초점으로 쓰는 클로즈업. 우리 "초점=링" 확인.</span><div class="tags"><span class="tag t-ref">직접</span><span class="tag t-ring">초점</span></div></div>
+ <div class="card"><span class="src">Evolved</span><a class="t" href="https://evolvedchargers.com/products/apple-iphone-magsafe-case-transparent" target="_blank" rel="noopener">Evolved — Transparent MagSafe</a><span class="steal"><b>훔칠 것:</b> 슬림 투명 케이스 엣지·굴절 하이라이트. 유리물성 강조.</span><div class="tags"><span class="tag t-ref">직접</span><span class="tag t-dev">장치</span></div></div>
+ <div class="card"><span class="src">Mous · 일관성</span><a class="t" href="https://www.mous.co/products/clear-phone-case-clarity_3_magsafe_compatible-button" target="_blank" rel="noopener">Mous — Clarity (다른 컷)</a><span class="steal"><b>훔칠 것:</b> 같은 브랜드가 "하나의 얼굴"을 어떻게 반복하는지. 우리가 목표하는 시그니처 일관성 사례.</span><div class="tags"><span class="tag t-ref">직접</span></div></div>
+</div>
+
+<h2><span class="bnum no">✕</span>반례 갤러리 — 이런 건 고르지 마세요</h2>
+<p class="bdesc">전부 밝거나 전면 무지개. 참고용이 아니라 <b>"이 톤은 피한다"</b>는 교보재입니다.</p>
+<div class="cards">
+ <div class="card no"><span class="src">Behance · 반례</span><a class="t" href="https://www.behance.net/gallery/120970647/IRIDETEX-Holographic-Iridescent-Textures-Pack" target="_blank" rel="noopener">IRIDETEX — 밝은 전면 무지개</a><span class="steal"><b>✕ 왜 반례:</b> 밝은 실버 위 전면 무지개 텍스처. 장치가 배경이 됨 = 우리 컨셉의 정반대.</span><div class="tags"><span class="tag t-no">반례</span></div></div>
+ <div class="card no"><span class="src">iStock · 반례</span><a class="t" href="https://www.istockphoto.com/photos/prism-light" target="_blank" rel="noopener">"prism light" 일반 검색</a><span class="steal"><b>✕ 왜 반례:</b> 투명 체커보드 오버레이·밝은 플레어 태반. "black background" 필터 없이 검색하면 이렇게 나옴.</span><div class="tags"><span class="tag t-no">반례</span></div></div>
+ <div class="card no"><span class="src">Pinterest · 반례</span><a class="t" href="https://www.pinterest.com/ideas/rainbow-light-reflection/961292236203/" target="_blank" rel="noopener">Rainbow Light Reflection 피드</a><span class="steal"><b>✕ 왜 반례:</b> 밝은 벽·햇살 무지개가 80%. 피드는 필터가 안 돼서 우리 톤이 소수. 스크랩 비효율.</span><div class="tags"><span class="tag t-no">반례</span></div></div>
+ <div class="card no"><span class="src">일반 검색 전반</span><span class="t" style="color:var(--sub);cursor:default">holographic / iridescent 텍스처 팩</span><span class="steal"><b>✕ 왜 반례:</b> 대부분 밝은 다색 그리드. "홀로그래픽"이라는 단어 자체가 밝은 결과를 끌어옴 → 검색어에서 배제.</span><div class="tags"><span class="tag t-no">반례</span></div></div>
+</div>
+
+<h2><span class="bnum">D</span>이 보드 사용법</h2>
+<div class="usebox">
+ <div><b>1. 검색 규칙</b> 항상 <code>black background</code> 추가 or 사이트 배경색 필터=검정. "holographic"은 검색어에서 빼기.</div>
+ <div><b>2. 셀렉 기준</b> "한 줄기가 갈라지는" 컷만. 전면 무지개·밝은 바탕·체커보드 오버레이는 버림.</div>
+ <div><b>3. 링 초점</b> C의 경쟁사 컷에서 링 처리 벤치 → 우리는 "링을 스펙트럼 착지점"으로 한 단계 더.</div>
+ <div><b>4. 흑백 검증</b> 셀렉을 흑백 변환해도 빛줄기 형태가 남는 컷만 → 1-glance 통과.</div>
+ <div><b>5. 산출물</b> 셀렉 20~30장으로 자체 무드보드 1장 → 촬영 지시서 첨부.</div>
+</div>
+
+<div class="warn"><b>라이선스 주의:</b> Dreamstime·Shutterstock·iStock·Freepik·YouWorkForThem은 <b>실사용 시 라이선스 구매 필수</b>. Behance·Pinterest·경쟁사는 <b>무드 참고용, 직접 사용·복제 금지</b>. 최종 소재는 자체 촬영/제작이어야 합니다.</div>
+
+<p class="foot">v2 재큐레이션(2026-08). 이전 버전이 일반 검색 페이지(밝은 톤 다수)를 걸었던 문제를 교정 — 검정 배경 pre-filtered 링크만 남기고, 밝은 링크는 반례로 격리했습니다. Prism Moment 컨셉 원페이저 v3의 스펙(장치·베이스·초점·1-glance)에 매핑.</p>
+</div></body></html>
