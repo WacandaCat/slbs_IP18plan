@@ -1,4 +1,8 @@
-name: Deploy static site to GitHub Pages
+name: Publish site (main -> gh-pages)
+
+# GitHub Pages 소스가 gh-pages 브랜치 /root 로 잡혀 있다.
+# main 에 push 하면 이 워크플로가 main 내용을 gh-pages 로 그대로 옮기고,
+# GitHub의 기본 "pages build and deployment"가 이어서 배포한다.
 
 on:
   push:
@@ -6,30 +10,21 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
-  group: pages
+  group: publish-pages
   cancel-in-progress: true
 
 jobs:
-  deploy:
+  mirror:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@v4
-      - name: Configure Pages
-        uses: actions/configure-pages@v5
         with:
-          enablement: true
-      - name: Upload repo root as Pages artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: .
-      - name: Deploy
-        id: deployment
-        uses: actions/deploy-pages@v4
+          fetch-depth: 0
+      - name: Push main tree to gh-pages
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git push --force origin HEAD:refs/heads/gh-pages
