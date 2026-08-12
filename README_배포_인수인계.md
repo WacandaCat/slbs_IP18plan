@@ -20,6 +20,18 @@
 - 따라서 **어디에 호스팅하든 이미지가 그대로 로드된다.** 이미지 파일을 같이 올릴 필요 없음.
 - (참고) brief.html의 예시 이미지 몇 개는 facebook.com/ads/image 영구 permalink를 쓴다. 만료되면 교체 필요할 수 있으나 나머지는 Storage라 안전.
 
+## 현재 배포 상태 (완료)
+- **라이브 URL: https://wacandacat.github.io/slbs_IP18plan/**
+- 레포: `https://github.com/WacandaCat/slbs_IP18plan` (public), 파일은 **레포 루트**에 평면 배치.
+- Pages 소스: **`gh-pages` 브랜치 / (root)**.
+  - 워크플로 `GITHUB_TOKEN`으로는 Pages 사이트 *생성*이 막혀 있어(`Resource not accessible by integration`)
+    `actions/configure-pages@v5`의 `enablement: true`가 실패했다. 대신 `gh-pages` 브랜치를 푸시하면
+    GitHub이 Pages를 자동 활성화하는 경로를 사용했고, `pages build and deployment`가 성공했다.
+- 갱신 방법: **`main`에 push**하면 `.github/workflows/pages.yml`이 `main` 트리를 `gh-pages`로 미러링 →
+  GitHub 기본 Pages 빌드가 자동 배포. (수동으로 `gh-pages`에 직접 push해도 동일)
+- Settings → Pages에서 소스를 `main` / `(root)`로 바꿔도 된다. 그 경우 미러링 워크플로는 지워도 무방.
+- Jekyll 처리 방지를 위해 `.nojekyll`을 루트에 두었다(밑줄로 시작하는 파일/폴더 대비).
+
 ## 배포 방법 (택1)
 
 ### A. GitHub Pages (사용자가 원한 방식)
@@ -41,10 +53,10 @@ cd <이 폴더>
 vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루트 그대로
 ```
 
-## 왜 클라우드 세션에서 못 끝냈나 (참고)
-- 이 클라우드 세션 샌드박스는 **git 프록시**가 있어 세션에 인가되지 않은 GitHub 레포로의 push를 차단함(`slbs_IP18plan` 미인가).
-- MCP Vercel 배포 도구는 **호출당 ~26KB 인라인 용량 한계**가 있어, 60KB+ 보드/243KB 통합본을 한 번에 못 올림.
-- 로컬 Claude Code는 두 제약이 모두 없음 → 위 A/B 그대로 하면 끝.
+## 이전 세션에서 못 끝냈던 이유 (해소됨, 기록용)
+- 예전 클라우드 세션은 git 프록시가 `slbs_IP18plan` push를 차단했음 → 이번 세션은 이 레포가 인가되어 push 성공.
+- MCP Vercel 배포 도구의 호출당 인라인 용량 한계는 그대로라, 243KB짜리 `soza-master.html` 때문에 Vercel MCP 경로는 여전히 비효율 → GitHub Pages로 배포함.
+- 남은 제약: 이 샌드박스는 `*.github.io` 아웃바운드가 막혀 있어 배포된 페이지를 세션 안에서 직접 열어볼 수는 없다(빌드/배포 성공 여부는 Actions로 확인).
 
 ## 데이터 출처 / 맥락
 - Supabase 프로젝트: `yhbduxezupwfmcemuokt` (slbs-d2c-dashboard). 이미지 버킷 `board-img`(public).
