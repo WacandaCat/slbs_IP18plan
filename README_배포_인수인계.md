@@ -18,6 +18,7 @@
 - `basetone.html` — 베이스톤 SVG 도식
 - `brief.html` — 소재 브리프
 - `concept-ref.html` — 컨셉+레퍼런스+베이스톤 통합본(iframe 탭)
+- `kv-guide.html` — KV 디자인 요청 패키지(brief 확장). 디렉션/스토리보드 2탭, 각 탭은 `<iframe srcdoc>`로 인라인.
 
 ## 이미지: 이미 호스팅됨 — 손댈 것 없음
 모든 보드/컨셉 이미지는 **Supabase Storage 공개 버킷에 이미 올라가 있고, HTML에 절대 URL로 박혀 있다.**
@@ -62,6 +63,12 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
 - 예전 클라우드 세션은 git 프록시가 `slbs_IP18plan` push를 차단했음 → 이번 세션은 이 레포가 인가되어 push 성공.
 - MCP Vercel 배포 도구의 호출당 인라인 용량 한계는 그대로라, 243KB짜리 `soza-master.html` 때문에 Vercel MCP 경로는 여전히 비효율 → GitHub Pages로 배포함.
 - 남은 제약: 이 샌드박스는 `*.github.io` 아웃바운드가 막혀 있어 배포된 페이지를 세션 안에서 직접 열어볼 수는 없다(빌드/배포 성공 여부는 Actions로 확인).
+
+## KV 제작 가이드 편입 (v2)
+- `kv-guide.html` 추가, 허브 `index.html`에 "KV 제작" 섹션 카드 추가.
+- **이미지 주의**: `kv-guide.html`의 `<img>` 소스는 Supabase Storage 4개 + `facebook.com/ads/image/?d=...` 퍼머링크 **5개**가 섞여 있다.
+  "GO — 이렇게 (검증된 KV)" 섹션의 예시 5컷이 아직 메타 퍼머링크다. 이건 만료될 수 있고 뷰어 환경에 따라 안 뜰 수 있으니,
+  깨지면 해당 5컷을 Storage(`board-img` 버킷)에 올리고 URL을 갈아끼우면 된다. 나머지 페이지는 전부 Storage라 안전.
 
 ## 데이터 출처 / 맥락
 - Supabase 프로젝트: `yhbduxezupwfmcemuokt` (slbs-d2c-dashboard). 이미지 버킷 `board-img`(public).
