@@ -4,7 +4,12 @@
 이 폴더의 정적 HTML들을 **한 URL**로 호스팅한다(팀 공유용 내부 대시보드 허브).
 
 ## 폴더 구성 (전부 정적 HTML, 빌드 불필요)
-- `index.html` — 허브(랜딩). 아래 페이지들을 **상대경로**로 링크. 운영 카드는 외부 런치스케줄로 링크.
+- `index.html` — 허브(랜딩). 아래 페이지들을 **상대경로**로 링크.
+- `schedule.html` — 런치 스케줄(제품 출시 일정 계산기). 원본: `WacandaCat/slbs_schedule`의 `index.html`.
+  - 원래 Vercel(`slbs-launch-schedule-danny37park.vercel.app`)에 따로 떠 있었으나 Deployment Protection 때문에
+    외부에서 로그인 벽에 막혀서 이 사이트 안으로 흡수했다. 계산기 전용 단일 파일이라 API 호출 없음
+    (외부 의존: cdn.jsdelivr.net Pretendard, fonts.googleapis.com JetBrains Mono — 폰트뿐).
+  - 원본 레포가 갱신되면 `slbs_schedule/index.html`을 다시 복사해 `schedule.html`로 덮어쓰면 된다.
 - `prsm-board.html` — PRSM 성과 콘텐츠 보드(반응×성과 산점도·사분면·KV 근거표)
 - `mono-board.html` — 모노클리어 IP 성과 보드
 - `soza-master.html` — 소재 통합본(브리프+PRSM/모노 보드, iframe 탭)
