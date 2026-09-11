@@ -74,3 +74,8 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
 - Supabase 프로젝트: `yhbduxezupwfmcemuokt` (slbs-d2c-dashboard). 이미지 버킷 `board-img`(public).
 - 지표: 메타 소재 자기보고 + 자사몰 실판매 canonical(realtime_orders+sales_raw). 금액 판단은 자사몰 MER 기준.
 - 내부 공유용.
+
+## 대만 NFC 안내 페이지 (tw-nfc/) — 별도 프로젝트
+- 타이중 박람회 굿즈용 NFC 카드 페이지 4종(린호텔·康茵行旅·味噌文化館·暨南大學). 상세는 `tw-nfc/HANDOFF.md`.
+- 빌드: `cd tw-nfc && python3 data3.py`. 배포물은 `tw-nfc/dist/` (정적). 허브 index.html에서 링크.
+- Pages URL: `https://wacandacat.github.io/slbs_IP18plan/tw-nfc/dist/` (main 머지 후).
