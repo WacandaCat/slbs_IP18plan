@@ -47,8 +47,17 @@ def _est(origin, dest, walk=True, drive=True):
         out["drive_min"] = max(3, int(round(road/speed*60/5.0))*5)
     return out
 
-def poi(name, address, desc=None, lat=None, lng=None, tag=None, hours=None, modes=None, origin=None, walk=True, km=None, drive_min=None):
+COMMONS = "https://commons.wikimedia.org/wiki/Special:FilePath/{}?width=900"
+def commons(filename):
+    """위키미디어 공용 파일명 → 썸네일 URL (핫링크 허용, 라이선스 표기는 HANDOFF §7)."""
+    from urllib.parse import quote
+    return COMMONS.format(quote(filename.replace(" ", "_")))
+
+def poi(name, address, desc=None, lat=None, lng=None, tag=None, hours=None, modes=None, origin=None, walk=True, km=None, drive_min=None, photo=None, emoji=None, credit=None):
     it = {"kind": "poi", "name": name, "address": address}
+    if photo: it["photo"] = photo          # URL 또는 dist/ 기준 상대경로(예: img/lin-01.jpg)
+    if emoji: it["emoji"] = emoji          # 사진 없을 때/로드 실패 시 플레이스홀더
+    if credit: it["credit"] = credit       # 사진 출처 (Commons 작가/라이선스)
     if desc: it["desc"] = desc
     if tag: it["tag"] = tag
     if hours: it["hours"] = hours

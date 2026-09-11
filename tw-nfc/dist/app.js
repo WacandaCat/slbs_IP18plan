@@ -85,6 +85,8 @@
     walkLbl:  { zh: '步行', en: 'walk', ko: '도보' },
     carLbl:   { zh: '車程', en: 'drive', ko: '차량' },
     estimate: { zh: '距離與時間為估計值，實際以 Google 地圖為準。', en: 'Distances and times are estimates; check Google Maps for live routing.', ko: '거리·시간은 추정치입니다. 실제 경로는 구글맵을 확인하세요.' },
+    mapHint:  { zh: '點選地圖上的圖釘可開啟導航', en: 'Tap a pin on the map for directions', ko: '지도의 핀을 누르면 길찾기가 열립니다' },
+    here:     { zh: '你在這裡', en: 'You are here', ko: '현재 위치' },
     loadErr:  { zh: '資料載入失敗，請重新整理。', en: 'Could not load page data. Please refresh.', ko: '데이터를 불러오지 못했습니다. 새로고침해 주세요.' }
   };
   function ui(k) { return t(UI[k]); }
@@ -103,29 +105,51 @@
   }
 
   /* ---- renderers per item kind ---- */
-  function renderPoi(item, page) {
+  var EMOJI_BY_TAG = [[/珍奶|茶|Bubble|버블/i,'🧋'],[/燒肉|Yakiniku|야키/i,'🥩'],[/小籠包|Dumpling|만두|水餃/i,'🥟'],[/火鍋|Hot pot|훠궈/i,'🍲'],[/拉麵|Ramen|라멘|麵/i,'🍜'],[/粥|Congee|죽/i,'🥣'],[/台菜|台式|Taiwanese|대만|Local|로컬|食堂|Japanese|일식/i,'🍚'],[/夜市|Night market|야시장/i,'🏮'],[/公園|Park|공원|河岸|Riverside|강변|生態|Eco/i,'🌳'],[/建築|Architecture|건축|地標|Landmark|랜드마크/i,'🏛️'],[/購物|Shopping|쇼핑/i,'🛍️'],[/夜景|Night view|야경/i,'🌃'],[/觀光工廠|Factory|관광공장|酒/i,'🏭'],[/藝術|Art|예술/i,'🎨'],[/寺|Temple|사원/i,'⛩️'],[/湖|Lake|호수/i,'🏞️'],[/甜點|Dessert|디저트|巧克力/i,'🍫'],[/文化|Culture|문화|紙/i,'📜']];
+  function emojiFor(item) {
+    if (item.emoji) return item.emoji;
+    var tg = item.tag ? (item.tag.zh || '') + ' ' + (item.tag.en || '') + ' ' + (item.tag.ko || '') : '';
+    for (var i = 0; i < EMOJI_BY_TAG.length; i++) if (EMOJI_BY_TAG[i][0].test(tg)) return EMOJI_BY_TAG[i][1];
+    return '📍';
+  }
+  function renderPoi(item, page, num) {
     var c = el('div', 'card poi');
-    var top = el('div', 'top');
+    if (num) c.id = 'p' + num;
+    /* photo / placeholder */
+    var ph = el('div', 'ph');
+    ph.appendChild(el('span', 'pe', emojiFor(item)));
+    if (item.photo) {
+      var img = el('img'); img.loading = 'lazy'; img.alt = t(item.name); img.referrerPolicy = 'no-referrer';
+      img.onload = function () { ph.classList.add('has'); };
+      img.onerror = function () { img.remove(); };
+      img.src = item.photo; ph.appendChild(img);
+      if (item.credit) ph.appendChild(el('span', 'credit', esc(item.credit)));
+    }
+    if (num) ph.appendChild(el('span', 'num', num));
+    if (item.tag) ph.appendChild(el('span', 'tag', esc(t(item.tag))));
+    c.appendChild(ph);
+    var body = el('div', 'body');
     var h = el('div');
     h.appendChild(el('h3', null, esc(t(item.name))));
     var alt = altName(item.name);
     if (alt) h.appendChild(el('div', 'alt', esc(alt)));
-    top.appendChild(h);
-    if (item.tag) top.appendChild(el('span', 'tag', esc(t(item.tag))));
-    c.appendChild(top);
-    if (item.desc) c.appendChild(el('p', null, esc(t(item.desc))));
+    body.appendChild(h);
+    if (item.desc) body.appendChild(el('p', null, esc(t(item.desc))));
     var meta = fmtDist(item);
     if (item.hours) meta += '<span>' + esc(t(item.hours)) + '</span>';
-    if (meta) c.appendChild(el('div', 'meta', meta));
+    if (meta) body.appendChild(el('div', 'meta', meta));
     var b = el('div', 'btns');
-    b.appendChild(btn(mapsSearch(item), 'pin', ui('info')));
     var modes = item.modes || (item.walk_min != null && item.walk_min <= 25 ? ['walking', 'driving'] : ['driving']);
+    var ib = btn(mapsSearch(item), 'pin', ui('info')); ib.classList.add('ic'); ib.title = ui('info'); b.appendChild(ib);
     modes.forEach(function (m, i) {
       var icon = m === 'walking' ? 'walk' : m === 'transit' ? 'bus' : 'car';
       var lbl = m === 'walking' ? ui('walk') : m === 'transit' ? ui('transit') : ui('drive');
-      b.appendChild(btn(mapsDir(page.origin, item, m), icon, lbl, i === 0));
+      var bt = btn(mapsDir(page.origin, item, m), icon, lbl, i === 0);
+      if (i > 0) { bt.classList.add('ic'); bt.title = lbl; }
+      b.appendChild(bt);
     });
-    c.appendChild(b);
+    body.appendChild(b);
+    c.appendChild(body);
     return c;
   }
   function altName(name) {
@@ -186,6 +210,63 @@
     return c;
   }
 
+  /* ---- map (Leaflet + OSM/CARTO tiles; pins link to Google Maps) ---- */
+  function collectPins(page) {
+    var out = [], n = 0;
+    page.sections.forEach(function (sec) {
+      sec.items.forEach(function (item) {
+        if (item.kind === 'poi' && item.lat != null) out.push({ n: ++n, item: item, kind: 'poi' });
+        else if (item.kind === 'route' && item.from && item.from.lat != null) out.push({ n: 0, item: item.from, kind: 'from' });
+      });
+    });
+    return out;
+  }
+  var MAP = null;
+  function drawMap(mapEl, page, pins) {
+    if (MAP) { MAP.remove(); MAP = null; }
+    var c = page.client;
+    var map = L.map(mapEl, { scrollWheelZoom: false, tap: true, zoomControl: true, attributionControl: true });
+    MAP = map;
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
+      maxZoom: 19, subdomains: 'abcd',
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">OpenStreetMap</a> &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener">CARTO</a>'
+    }).addTo(map);
+    var bounds = [];
+    function pin(cls, label) {
+      return L.divIcon({ className: 'pin ' + cls, html: '<span><i>' + label + '</i></span>', iconSize: [28, 28], iconAnchor: [14, 28], popupAnchor: [0, -26] });
+    }
+    function popupHtml(p, isHome) {
+      var h = '<b>' + esc(t(p.name)) + '</b>';
+      var alt = altName(p.name); if (alt) h += '<br><small>' + esc(alt) + '</small>';
+      h += '<div class="pp">';
+      if (isHome) h += '<a href="' + mapsSearch(p) + '" target="_blank" rel="noopener">' + esc(ui('map')) + '</a>';
+      else {
+        h += '<a href="' + mapsSearch(p) + '" target="_blank" rel="noopener">' + esc(ui('info')) + '</a>';
+        var mode = (p.walk_min != null && p.walk_min <= 25) ? 'walking' : 'driving';
+        h += '<a class="pri" href="' + mapsDir(page.origin, p, mode) + '" target="_blank" rel="noopener">' + esc(ui('dirHere')) + '</a>';
+      }
+      return h + '</div>';
+    }
+    if (c.lat != null) {
+      var home = L.marker([c.lat, c.lng], { icon: pin('home', '&#9679;'), zIndexOffset: 1000 }).addTo(map);
+      home.bindPopup(popupHtml(c, true));
+      bounds.push([c.lat, c.lng]);
+    }
+    pins.forEach(function (pn) {
+      var p = pn.item;
+      var m = L.marker([p.lat, p.lng], { icon: pin(pn.kind === 'from' ? 'from' : 'poi', pn.n || '&#9679;') }).addTo(map);
+      m.bindPopup(popupHtml(p, false));
+      if (pn.n) m.on('click', function () { var card = document.getElementById('p' + pn.n); if (card) card.classList.add('hl'); setTimeout(function(){ if (card) card.classList.remove('hl'); }, 1600); });
+      if (pn.kind === 'poi') bounds.push([p.lat, p.lng]);
+    });
+    if (bounds.length > 1) map.fitBounds(bounds, { padding: [28, 28], maxZoom: 16 });
+    else if (bounds.length) map.setView(bounds[0], 15);
+    else map.setView([24.15, 120.65], 11);
+    // route pages (stations far away): include them but don't zoom out past a sane level
+    var far = pins.filter(function (pn) { return pn.kind === 'from'; }).map(function (pn) { return [pn.item.lat, pn.item.lng]; });
+    if (far.length && bounds.length <= 1) map.fitBounds(bounds.concat(far), { padding: [28, 28], maxZoom: 13 });
+  }
+
   function render() {
     var page = DATA.pages[slug];
     document.documentElement.lang = lang === 'zh' ? 'zh-Hant-TW' : lang;
@@ -226,14 +307,27 @@
     hero.appendChild(addr);
     wrap.appendChild(hero);
 
+    /* map */
+    var pins = collectPins(page);
+    if (pins.length && window.L) {
+      var mapWrap = el('section', 'mapwrap');
+      var mapEl = el('div', 'map'); mapEl.id = 'map';
+      mapWrap.appendChild(mapEl);
+      mapWrap.appendChild(el('p', 'maphint', esc(ui('mapHint'))));
+      wrap.appendChild(mapWrap);
+      setTimeout(function () { drawMap(mapEl, page, pins); }, 0);
+    }
+
     /* sections */
+    var n = 0;
     page.sections.forEach(function (sec) {
       var s = el('section', 'sec');
       var count = sec.items.filter(function (i) { return i.kind === 'poi' || i.kind === 'route'; }).length;
       s.appendChild(el('h2', null, esc(t(sec.title)) + (count > 1 ? ' <span class="n">' + count + '</span>' : '')));
-      var list = el('div', 'list');
+      var hasPoi = sec.items.some(function (i) { return i.kind === 'poi'; });
+      var list = el('div', 'list' + (hasPoi ? ' grid' : ''));
       sec.items.forEach(function (item) {
-        if (item.kind === 'poi') list.appendChild(renderPoi(item, page));
+        if (item.kind === 'poi') list.appendChild(renderPoi(item, page, item.lat != null ? ++n : 0));
         else if (item.kind === 'route') list.appendChild(renderRoute(item, page));
         else if (item.kind === 'info') list.appendChild(renderInfo(item));
         else list.appendChild(renderTip(item));
