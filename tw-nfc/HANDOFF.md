@@ -49,7 +49,15 @@ tw-nfc/
 - 클라이언트 배너: `place(..., logo=URL, hero=URL, hero_credit=…, theme="#hex")`. 헤더 아래에 대표사진(hero) + 로고 카드가 뜬다.
   hero가 없으면 theme 색 그라데이션 배너. 이미지 로드 실패 시 자동으로 텍스트 이름으로 대체(onerror).
   현재 로고 4개는 클라이언트 사이트 **핫링크**(§8 URL) → 사이트가 바뀌면 깨질 수 있으니 확정 후 `dist/img/`에 로컬 복사 권장.
-- 사진: `poi(..., photo=URL 또는 "img/xxx.jpg", credit="…", emoji="🧋")`. 없으면 태그 기반 이모지 플레이스홀더.
+- 사진 넣는 가장 쉬운 방법(데이터 수정 불필요): `dist/img/`에 파일만 넣으면 app.js가 자동으로 먼저 찾는다.
+    - 카드: `img/<slug>-<카드번호>.jpg` (또는 .png). 예: `img/lin-1.jpg` = 林酒店 페이지 1번 카드(春水堂). 번호는 페이지 카드/핀 번호.
+    - 배너 대표사진: `img/<slug>-hero.jpg`, 로고: `img/<slug>-logo.png`
+    - 순서: 로컬 img → data.json의 photo/hero/logo URL → 이모지/텍스트 폴백
+  이미지는 가로 16:9 권장, 900px 폭이면 충분. 시연용이라 출처 표기는 뺐음(캡션 없음).
+- 사진: `poi(..., photo=URL 또는 "img/xxx.jpg", emoji="🧋")`. 없으면 태그 기반 이모지 플레이스홀더.
+  식당 사진 후보 페이지(샌드박스에서 못 받음, 브라우저에서 og:image 저장): 春水堂 chunshuitang.com.tw/location-detail/chaofu_store/ ·
+  屋馬 umai.tw · 鼎泰豐 dintaifung.com.tw/store.php · 阿秋 ac-rg.com · 無老鍋 wulao.com.tw/store.php?cID=3 · 五花馬 tw.wuhuama.biz ·
+  一風堂 ippudo.com.tw/branch · 老先覺 oldgod.com.tw · 康茵 comingplace.com/gallery/ · 味榮 sauceco.com.tw/culture · 18度C feeling18c.com/store
   명소 16곳은 위키미디어 공용 `commons("파일명")` 썸네일(작가/라이선스는 파일 페이지에서 확인 필요, 웹 표시 시 credit 표기됨).
   식당 6+6곳은 해당 매장 자유이용 사진이 없어 이모지 → 클라이언트에 사진 요청해서 `dist/img/`에 넣고 photo= 연결.
 - 지도: Leaflet 1.9.4(`dist/vendor/`) + CARTO Voyager 타일(OSM 기반, 키 불필요). 클라이언트=검정 핀, POI=번호 핀(카드 번호와 일치), 출발역=회색 핀.

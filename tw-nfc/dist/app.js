@@ -112,18 +112,28 @@
     for (var i = 0; i < EMOJI_BY_TAG.length; i++) if (EMOJI_BY_TAG[i][0].test(tg)) return EMOJI_BY_TAG[i][1];
     return '📍';
   }
+
+  /* try each src in order; on success add `okClass` to holder, on total failure remove img */
+  function loadChain(img, holder, srcs, okClass) {
+    var i = 0;
+    function next() {
+      while (i < srcs.length && !srcs[i]) i++;
+      if (i >= srcs.length) { img.remove(); return; }
+      img.src = srcs[i++];
+    }
+    img.onload = function () { holder.classList.add(okClass); };
+    img.onerror = next;
+    next();
+  }
   function renderPoi(item, page, num) {
     var c = el('div', 'card poi');
     if (num) c.id = 'p' + num;
     /* photo / placeholder */
     var ph = el('div', 'ph');
     ph.appendChild(el('span', 'pe', emojiFor(item)));
-    if (item.photo) {
-      var img = el('img'); img.loading = 'lazy'; img.alt = t(item.name); img.referrerPolicy = 'no-referrer';
-      img.onload = function () { ph.classList.add('has'); };
-      img.onerror = function () { img.remove(); };
-      img.src = item.photo; ph.appendChild(img);
-    }
+    var img = el('img'); img.loading = 'lazy'; img.alt = t(item.name); img.referrerPolicy = 'no-referrer';
+    ph.appendChild(img);
+    loadChain(img, ph, [num ? 'img/' + slug + '-' + num + '.jpg' : null, num ? 'img/' + slug + '-' + num + '.png' : null, item.photo], 'has');
     if (num) ph.appendChild(el('span', 'num', num));
     if (item.tag) ph.appendChild(el('span', 'tag', esc(t(item.tag))));
     c.appendChild(ph);
@@ -296,20 +306,14 @@
     /* banner: client hero image + logo (falls back to colored band / text) */
     var bn = el('section', 'banner');
     if (page.client.theme) bn.style.setProperty('--theme', page.client.theme);
-    if (page.client.hero) {
-      var hi = el('img', 'hero-img'); hi.alt = ''; hi.referrerPolicy = 'no-referrer';
-      hi.onload = function () { bn.classList.add('has-hero'); };
-      hi.onerror = function () { hi.remove(); };
-      hi.src = page.client.hero; bn.appendChild(hi);
-    }
+    var hi = el('img', 'hero-img'); hi.alt = ''; hi.referrerPolicy = 'no-referrer';
+    bn.appendChild(hi);
+    loadChain(hi, bn, ['img/' + slug + '-hero.jpg', page.client.hero], 'has-hero');
     var lc = el('div', 'logo-card');
     var lname = el('div', 'lname', esc(t(page.client.name)));
-    if (page.client.logo) {
-      var li = el('img', 'logo'); li.alt = t(page.client.name); li.referrerPolicy = 'no-referrer';
-      li.onload = function () { lc.classList.add('has-logo'); };
-      li.onerror = function () { li.remove(); };
-      li.src = page.client.logo; lc.appendChild(li);
-    }
+    var li = el('img', 'logo'); li.alt = t(page.client.name); li.referrerPolicy = 'no-referrer';
+    lc.appendChild(li);
+    loadChain(li, lc, ['img/' + slug + '-logo.png', 'img/' + slug + '-logo.jpg', page.client.logo], 'has-logo');
     lc.appendChild(lname);
     bn.appendChild(lc);
     root.appendChild(bn);
