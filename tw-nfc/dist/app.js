@@ -225,7 +225,7 @@
   function drawMap(mapEl, page, pins) {
     if (MAP) { MAP.remove(); MAP = null; }
     var c = page.client;
-    var map = L.map(mapEl, { scrollWheelZoom: false, tap: true, zoomControl: true, attributionControl: true });
+    var map = L.map(mapEl, { scrollWheelZoom: true, tap: true, zoomControl: true, attributionControl: true });
     MAP = map;
     L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       maxZoom: 19, subdomains: 'abcd',
