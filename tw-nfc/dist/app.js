@@ -123,7 +123,6 @@
       img.onload = function () { ph.classList.add('has'); };
       img.onerror = function () { img.remove(); };
       img.src = item.photo; ph.appendChild(img);
-      if (item.credit) ph.appendChild(el('span', 'credit', esc(item.credit)));
     }
     if (num) ph.appendChild(el('span', 'num', num));
     if (item.tag) ph.appendChild(el('span', 'tag', esc(t(item.tag))));
@@ -302,7 +301,6 @@
       hi.onload = function () { bn.classList.add('has-hero'); };
       hi.onerror = function () { hi.remove(); };
       hi.src = page.client.hero; bn.appendChild(hi);
-      if (page.client.hero_credit) bn.appendChild(el('span', 'credit', esc(page.client.hero_credit)));
     }
     var lc = el('div', 'logo-card');
     var lname = el('div', 'lname', esc(t(page.client.name)));
