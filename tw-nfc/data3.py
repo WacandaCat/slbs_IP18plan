@@ -102,7 +102,9 @@ PAGES = {}
 LIN = place(T("林酒店", "The Lin Hotel Taichung", "린 호텔 타이중"),
             T("台中市西屯區朝富路99號", "No. 99, Chaofu Rd, Xitun District, Taichung", "台中市西屯區朝富路99號"),
             24.1653, 120.6372, phone="+886-4-2255-5555", website="https://www.thelin.com.tw",
-            short=T("林酒店", "The Lin Hotel", "린 호텔"))
+            short=T("林酒店", "The Lin Hotel", "린 호텔"),
+            logo="https://static.wixstatic.com/media/0b7d63_163fc4ed42a548ef97e7262b6d6c356a~mv2.png",
+            hero=commons("The Lin Hotel Taichung and National Trade Center.jpg"), hero_credit="Wikimedia Commons", theme="#1c2b4a")
 _o = LIN
 PAGES["lin"] = {
     "client": LIN, "origin": LIN,
@@ -135,22 +137,22 @@ PAGES["lin"] = {
         section(T("周邊景點", "Sights", "주변 명소"), [
             poi(T("秋紅谷景觀生態公園", "Maple Garden (Qiuhonggu)", "추홍구 생태공원"), T("台中市西屯區朝富路30號"),
                 T("飯店旁的下凹式湖景公園，夜景迷人。", "Sunken lakeside park next to the hotel, lovely at night.", "호텔 바로 옆 움푹 파인 호수 공원. 야경이 아름다움."),
-                24.1659, 120.6388, tag=T("公園", "Park", "공원"), hours=T("24 小時", "24 hours", "24시간"), origin=_o),
+                24.1659, 120.6388, tag=T("公園", "Park", "공원"), hours=T("24 小時", "24 hours", "24시간"), origin=_o, photo=commons('Maple Garden in Taichung 2017.jpg'), credit='Wikimedia Commons'),
             poi(T("臺中國家歌劇院", "National Taichung Theater", "타이중 국가가극원"), T("台中市西屯區惠來路二段101號"),
                 T("伊東豊雄設計的曲牆建築地標，免費參觀。", "Toyo Ito's curved-wall landmark; free to explore.", "이토 도요가 설계한 곡면 건축 랜드마크. 무료 입장."),
-                24.1626, 120.6403, tag=T("建築 / 藝文", "Architecture", "건축"), hours=T("11:30–21:00（週一休）", "11:30–21:00 (closed Mon)", "11:30–21:00 (월요일 휴관)"), origin=_o),
+                24.1626, 120.6403, tag=T("建築 / 藝文", "Architecture", "건축"), hours=T("11:30–21:00（週一休）", "11:30–21:00 (closed Mon)", "11:30–21:00 (월요일 휴관)"), origin=_o, photo=commons('2017-10-29 National Taichung Theater.jpg'), credit='Wikimedia Commons'),
             poi(T("Top City 台中大遠百", "Top City (Far Eastern Dept. Store)", "탑시티 타이중 다위안바이"), T("台中市西屯區台灣大道三段251號"),
                 T("台中最大百貨，鄰新光三越，餐廳影城齊全。", "Taichung's largest mall, next to Shin Kong Mitsukoshi.", "타이중 최대 백화점. 신광미츠코시와 인접."),
-                24.1646, 120.6445, tag=T("購物", "Shopping", "쇼핑"), hours=T("週一–五 11:00–22:00 · 週六日 10:30–22:00", "Mon–Fri 11:00–22:00 · Sat–Sun 10:30–22:00", "월–금 11:00–22:00 · 토·일 10:30–22:00"), origin=_o),
+                24.1646, 120.6445, tag=T("購物", "Shopping", "쇼핑"), hours=T("週一–五 11:00–22:00 · 週六日 10:30–22:00", "Mon–Fri 11:00–22:00 · Sat–Sun 10:30–22:00", "월–금 11:00–22:00 · 토·일 10:30–22:00"), origin=_o, photo=commons('遠東百貨-Top City (4).JPG'), credit='Wikimedia Commons'),
             poi(T("臺中市政府（新市政中心）", "Taichung City Hall", "타이중 시청"), T("台中市西屯區台灣大道三段99號"),
                 T("瑞士建築師設計的市政大樓與廣場。", "Swiss-designed city hall and civic plaza.", "스위스 건축가가 설계한 시청사와 광장."),
-                24.1615, 120.6474, tag=T("地標", "Landmark", "랜드마크"), origin=_o),
+                24.1615, 120.6474, tag=T("地標", "Landmark", "랜드마크"), origin=_o, photo=commons('Taichung City Hall 20190712.jpg'), credit='Wikimedia Commons'),
             poi(T("逢甲夜市", "Fengjia Night Market", "펑자 야시장"), T("台中市西屯區文華路"),
                 T("全台規模最大的夜市，小吃創意百出。", "Taiwan's largest night market, packed with creative snacks.", "대만 최대 규모 야시장. 창의적인 길거리 음식 천국."),
-                24.1773, 120.6466, tag=T("夜市", "Night market", "야시장"), hours=T("約 17:00–01:00", "approx. 17:00–01:00", "약 17:00–01:00"), origin=_o),
+                24.1773, 120.6466, tag=T("夜市", "Night market", "야시장"), hours=T("約 17:00–01:00", "approx. 17:00–01:00", "약 17:00–01:00"), origin=_o, photo=commons('Feng Chia Night Market, Taichung.JPG'), credit='Wikimedia Commons · Rybloo · CC BY-SA 3.0'),
             poi(T("文心森林公園", "Wenxin Forest Park", "원신 삼림공원"), T("台中市南屯區文心路一段289號"),
                 T("8.8 公頃綠地，內有圓滿戶外劇場。", "8.8-hectare green space with the Fulfillment Amphitheater.", "8.8헥타르 녹지 공원. 야외 원형극장 보유."),
-                24.1460, 120.6448, tag=T("公園", "Park", "공원"), hours=T("24 小時", "24 hours", "24시간"), origin=_o),
+                24.1460, 120.6448, tag=T("公園", "Park", "공원"), hours=T("24 小時", "24 hours", "24시간"), origin=_o, photo=commons('2022 Wenshin Forest Park 01.jpg'), credit='Wikimedia Commons'),
         ]),
         section(T("小提醒", "Good to know", "안내"), [
             tip(T("回飯店", "Back to the hotel", "호텔로 돌아오기"),
@@ -166,7 +168,8 @@ PAGES["lin"] = {
 COMIN = place(T("康茵行旅", "Comin' Place", "코민 플레이스 (康茵行旅)"),
               T("台中市烏日區大同九街73號", "No. 73, Datong 9th St, Wuri District, Taichung", "台中市烏日區大同九街73號"),
               24.1126, 120.6283, phone="+886-4-2338-9333", website="https://comingplace.com",
-              short=T("康茵行旅", "Comin' Place", "康茵行旅"))
+              short=T("康茵行旅", "Comin' Place", "康茵行旅"),
+              logo='https://comingplace.com/wp-content/uploads/2019/12/%E4%B8%AD%E8%8B%B1%E6%96%87LOGO%EF%BC%88%E7%81%B0%EF%BC%89.png', theme="#3b5d50")
 _oC = COMIN
 PAGES["comin"] = {
     "client": COMIN, "origin": COMIN,
@@ -199,19 +202,19 @@ PAGES["comin"] = {
         section(T("周邊景點", "Sights", "주변 명소"), [
             poi(T("烏日啤酒觀光工廠", "Wuri Brewery (Taiwan Beer)", "우르 맥주 관광공장"), T("台中市烏日區光華街1號"),
                 T("台灣啤酒生產基地，巨型啤酒箱打卡與產品推廣中心免費參觀。", "Taiwan Beer's brewery with a giant beer-crate photo spot and free product center.", "타이완 맥주 양조장. 대형 맥주 상자 포토존과 무료 매장·전시관."),
-                24.1110, 120.6220, tag=T("觀光工廠", "Factory", "관광공장"), hours=T("09:00–18:00"), origin=_oC),
+                24.1110, 120.6220, tag=T("觀光工廠", "Factory", "관광공장"), hours=T("09:00–18:00"), origin=_oC, photo=commons('Wurih Brewery Tourism Factory 20230415.jpg'), credit='Wikimedia Commons'),
             poi(T("筏子溪門戶迎賓水岸廊道", "Fazi River TAICHUNG Landmark", "파즈시 TAICHUNG 랜드마크"), T("台中市南屯區筏子東街一段33-59號"),
                 T("1.8 公里河岸步道與 4 公尺高 TAICHUNG 立體字，夜間點燈。", "1.8 km riverside walk with the 4 m TAICHUNG sign, lit up at night.", "1.8 km 강변 산책로와 밤에 빛나는 4 m TAICHUNG 조형물."),
-                24.1305, 120.6197, tag=T("河岸 / 打卡", "Riverside", "강변 포토존"), hours=T("24 小時 · 點燈 17:00–22:00", "24 hours · lit 17:00–22:00", "24시간 · 점등 17:00–22:00"), origin=_oC),
+                24.1305, 120.6197, tag=T("河岸 / 打卡", "Riverside", "강변 포토존"), hours=T("24 小時 · 點燈 17:00–22:00", "24 hours · lit 17:00–22:00", "24시간 · 점등 17:00–22:00"), origin=_oC, photo=commons('Fazi River and the viaduct of high speed rail in Taichung 2006-11-19.jpg'), credit='Wikimedia Commons'),
             poi(T("彩虹眷村", "Rainbow Village", "무지개 마을 (차이훙 쥐안춘)"), T("台中市南屯區春安路56巷25號"),
                 T("彩虹爺爺的繽紛彩繪村，2023 年整修後重新開放，免費參觀。", "Colorful painted village by “Rainbow Grandpa”, reopened in 2023, free entry.", "‘레인보우 할아버지’의 알록달록 벽화 마을. 2023년 재개장, 무료."),
-                24.1336, 120.6098, tag=T("藝術", "Art", "예술"), hours=T("約 09:00–17:00", "approx. 09:00–17:00", "약 09:00–17:00"), origin=_oC, walk=False),
+                24.1336, 120.6098, tag=T("藝術", "Art", "예술"), hours=T("約 09:00–17:00", "approx. 09:00–17:00", "약 09:00–17:00"), origin=_oC, walk=False, photo=commons('Taichung Rainbow Village 44.jpg'), credit='Wikimedia Commons · Zairon · CC BY-SA 4.0'),
             poi(T("望高寮夜景公園", "Wanggaoliao Night View Park", "왕가오랴오 야경공원"), T("台中市南屯區中台路601號"),
                 T("大肚山上的百萬夜景平台，可眺望台中市區與台中港。", "Hilltop lookout on Dadu Mountain with sweeping Taichung night views.", "다두산 언덕의 무료 전망대. 타이중 시내 야경 명소."),
-                24.1436, 120.5813, tag=T("夜景", "Night view", "야경"), hours=T("24 小時", "24 hours", "24시간"), origin=_oC, walk=False),
+                24.1436, 120.5813, tag=T("夜景", "Night view", "야경"), hours=T("24 小時", "24 hours", "24시간"), origin=_oC, walk=False, photo=commons('望高寮夜景公園.JPG'), credit='Wikimedia Commons · Fcuk1203 · CC BY-SA 3.0'),
             poi(T("東海大學 路思義教堂", "Luce Memorial Chapel, Tunghai University", "동해대학 루스 기념 예배당"), T("台中市西屯區台灣大道四段1727號 東海大學"),
                 T("貝聿銘與陳其寬設計的帆形教堂，台中經典現代建築地標。", "Iconic sail-shaped chapel by I. M. Pei and Chen Chi-kwan on a leafy campus.", "I. M. 페이가 설계한 돛 모양 예배당. 타이중 대표 건축 명소."),
-                24.1788, 120.6005, tag=T("建築", "Architecture", "건축"), hours=T("外觀全天 · 內部平日 16:00–18:00", "Exterior anytime · interior weekdays 16:00–18:00", "외관 상시 · 내부 평일 16:00–18:00"), origin=_oC, walk=False),
+                24.1788, 120.6005, tag=T("建築", "Architecture", "건축"), hours=T("外觀全天 · 內部平日 16:00–18:00", "Exterior anytime · interior weekdays 16:00–18:00", "외관 상시 · 내부 평일 16:00–18:00"), origin=_oC, walk=False, photo=commons('Luce Memorial Chapel 2017.jpg'), credit='Wikimedia Commons'),
         ]),
         section(T("小提醒", "Good to know", "안내"), [
             tip(T("回飯店", "Back to the hotel", "호텔로 돌아오기"),
@@ -227,7 +230,8 @@ PAGES["comin"] = {
 MISO = place(T("台灣味噌釀造文化館", "Taiwan Miso Brewing Culture Museum", "타이완 미소 양조 문화관"),
              T("台中市豐原區西勢路701號", "No. 701, Xishi Rd, Fengyuan District, Taichung", "台中市豐原區西勢路701號"),
              24.2342, 120.7007, phone="+886-4-2532-0279", website="https://www.sauceco.com.tw/",
-             short=T("味噌釀造文化館", "Miso Culture Museum", "미소 양조 문화관"))
+             short=T("味噌釀造文化館", "Miso Culture Museum", "미소 양조 문화관"),
+             logo="https://www.sauceco.com.tw/theme-b67/images/logo.png", theme="#7a4a1e")
 FENGYUAN = place(T("臺鐵豐原車站", "TRA Fengyuan Station", "타이완철도 펑위안역"), T("台中市豐原區中正路1號"), 24.2543, 120.7237)
 HSR_TC  = place(T("高鐵台中站", "THSR Taichung Station", "고속철도 타이중역"), T("台中市烏日區站區二路8號"), 24.1121, 120.6157)
 TRA_TC  = place(T("臺鐵臺中車站", "TRA Taichung Station", "타이완철도 타이중역"), T("台中市中區臺灣大道一段1號"), 24.1369, 120.6852)
@@ -298,7 +302,9 @@ PAGES["miso"] = {
 NCNU = place(T("國立暨南國際大學 觀光休閒與餐旅管理學系", "NCNU Dept. of Tourism, Leisure & Hospitality Management", "국립지난국제대학 관광레저·호텔경영학과"),
              T("南投縣埔里鎮大學路1號", "No. 1, Daxue Rd, Puli Township, Nantou County", "南投縣埔里鎮大學路1號"),
              23.9530, 120.9347, phone="+886-49-291-0960", website="https://www.tourism.ncnu.edu.tw/",
-             short=T("暨大 觀餐系", "NCNU Tourism & Hospitality", "지난대 관광호텔학과"))
+             short=T("暨大 觀餐系", "NCNU Tourism & Hospitality", "지난대 관광호텔학과"),
+             logo="https://www.tourism.ncnu.edu.tw/wp-content/uploads/2021/03/web_logo_v2.png",
+             hero=commons("Taiwan National ChiNan University.JPG"), hero_credit="Wikimedia Commons · CC BY-SA 2.5", theme="#1f4d3a")
 # 자동차 목적지는 管理學院 (大學路470號) — 핸드오프 §3
 NCNU_MGMT = place(T("國立暨南國際大學 管理學院", "NCNU College of Management", "지난대 경영대학(관리학원)"), T("南投縣埔里鎮大學路470號"), 23.9535, 120.9330)
 NCNU_BUSSTOP = place(T("暨南大學站（公車）", "National Chi Nan University bus stop", "지난대학 버스 정류장"), T("南投縣埔里鎮大學路1號 暨南大學"))
@@ -363,22 +369,22 @@ PAGES["ncnu"] = {
         section(T("周邊景點", "Nearby sights", "주변 명소"), [
             poi(T("紙教堂（新故鄉見學園區）", "Paper Dome (Taomi Eco-Village)", "종이 교회 (타오미 생태마을)"), T("南投縣埔里鎮桃米里桃米巷52-12號"),
                 T("來自神戶的 921 重建紀念紙管教堂，坐落桃米生態村荷花池畔。", "Paper-tube church from Kobe, a 921-quake memorial beside Taomi's lotus pond.", "고베에서 옮겨온 종이 교회. 타오미 생태마을 연꽃 연못 옆 921 지진 기념지."),
-                23.9257, 120.9316, tag=T("生態", "Eco", "생태"), hours=T("09:30–17:00（週三休）· 入園 NT$70", "09:30–17:00 (closed Wed) · NT$70", "09:30–17:00 (수요일 휴관) · NT$70"), origin=_oN, walk=False, drive_min=9),
+                23.9257, 120.9316, tag=T("生態", "Eco", "생태"), hours=T("09:30–17:00（週三休）· 入園 NT$70", "09:30–17:00 (closed Wed) · NT$70", "09:30–17:00 (수요일 휴관) · NT$70"), origin=_oN, walk=False, drive_min=9, photo=commons('Paper Dome, Puli (Taiwan).jpg'), credit='Wikimedia Commons'),
             poi(T("埔里酒廠", "Puli Winery", "푸리 주조장"), T("南投縣埔里鎮中山路三段219號"),
                 T("紹興酒故鄉，免門票參觀酒甕隧道、酒文化館與伴手禮。", "Home of Shaoxing wine; free entry to the wine-jar tunnel, museum and gift shop.", "사오싱주의 고향. 술항아리 터널·주류문화관 무료 관람과 기념품."),
-                23.9697, 120.9650, tag=T("觀光工廠", "Factory tour", "관광공장"), hours=T("09:00–17:00（假日至 17:30）", "09:00–17:00 (to 17:30 on holidays)", "09:00–17:00 (휴일 17:30까지)"), origin=_oN, walk=False, drive_min=13),
+                23.9697, 120.9650, tag=T("觀光工廠", "Factory tour", "관광공장"), hours=T("09:00–17:00（假日至 17:30）", "09:00–17:00 (to 17:30 on holidays)", "09:00–17:00 (휴일 17:30까지)"), origin=_oN, walk=False, drive_min=13, photo=commons('TTL Puli Brewery entrance rear 20170819.jpg'), credit='Wikimedia Commons'),
             poi(T("18度C巧克力工房", "Feeling 18 Chocolate", "18도C 초콜릿 공방"), T("南投縣埔里鎮慈恩街20號"),
                 T("埔里人氣巧克力與義式冰淇淋名店，免門票順遊。", "Puli's popular chocolate and gelato shop; free to visit.", "푸리 인기 초콜릿·젤라토 매장. 무료 입장."),
                 23.9668, 120.9688, tag=T("甜點", "Dessert", "디저트"), hours=T("10:00–18:00（假日至 19:00）", "10:00–18:00 (to 19:00 on holidays)", "10:00–18:00 (휴일 19:00까지)"), origin=_oN, walk=False, drive_min=13),
             poi(T("廣興紙寮", "Guangxing Paper Mill", "광싱 종이공방"), T("南投縣埔里鎮鐵山路310號"),
                 T("台灣第一家手工造紙觀光工廠，免費導覽與造紙、拓印 DIY。", "Taiwan's first handmade-paper tourist factory with free tours and DIY.", "타이완 최초 수제 종이 관광공장. 무료 가이드와 종이 만들기 체험."),
-                23.9808, 120.9520, tag=T("文化", "Culture", "문화"), hours=T("09:00–17:00"), origin=_oN, walk=False, drive_min=16),
+                23.9808, 120.9520, tag=T("文化", "Culture", "문화"), hours=T("09:00–17:00"), origin=_oN, walk=False, drive_min=16, photo=commons('Traditional paper making Goang Xing Paper Mill Taiwan 02.jpg'), credit='Wikimedia Commons · Tsurumi Paper Co.'),
             poi(T("中台禪寺", "Chung Tai Chan Monastery", "중타이찬쓰"), T("南投縣埔里鎮中台路2號"),
                 T("李祖原設計的宏偉現代佛寺，園區免費，附設中台世界博物館。", "Monumental modern Buddhist monastery by C.Y. Lee; free grounds, museum ticketed.", "리쭈위안 설계의 웅장한 현대 불교 사원. 경내 무료, 박물관 유료."),
-                24.0028, 120.9435, tag=T("寺院", "Temple", "사원"), hours=T("08:00–17:30（11–2 月至 17:00）", "08:00–17:30 (to 17:00 Nov–Feb)", "08:00–17:30 (11~2월 17:00까지)"), origin=_oN, walk=False, drive_min=22),
+                24.0028, 120.9435, tag=T("寺院", "Temple", "사원"), hours=T("08:00–17:30（11–2 月至 17:00）", "08:00–17:30 (to 17:00 Nov–Feb)", "08:00–17:30 (11~2월 17:00까지)"), origin=_oN, walk=False, drive_min=22, photo=commons('中台禪寺 Chung Tai Chan Monastery - panoramio.jpg'), credit='Wikimedia Commons'),
             poi(T("日月潭（向山遊客中心）", "Sun Moon Lake (Xiangshan Visitor Center)", "일월담 (샹산 방문자센터)"), T("南投縣魚池鄉中山路599號"),
                 T("台灣最大高山湖泊，清水模遊客中心可眺望湖景、租自行車環湖。", "Taiwan's largest alpine lake; lakeside visitor center, cycling and boat cruises.", "타이완 최대 산정호수. 호숫가 방문자센터와 자전거·유람선 코스."),
-                23.8523, 120.8967, tag=T("湖景", "Lake", "호수"), hours=T("遊客中心 09:00–17:00", "Visitor center 09:00–17:00", "방문자센터 09:00–17:00"), origin=_oN, walk=False, drive_min=28),
+                23.8523, 120.8967, tag=T("湖景", "Lake", "호수"), hours=T("遊客中心 09:00–17:00", "Visitor center 09:00–17:00", "방문자센터 09:00–17:00"), origin=_oN, walk=False, drive_min=28, photo=commons('View of Sun Moon Lake from Wen Wu Temple 02.jpg'), credit='Wikimedia Commons · Dquai · CC BY-SA 4.0'),
         ]),
     ],
     "footer": T("公車班次與票價以南投客運／台灣好行公告為準。", "Bus times and fares per Nantou Bus / Taiwan Tourist Shuttle notices.", "버스 시간표·요금은 난터우버스/타이완 하오싱 공지를 우선합니다."),

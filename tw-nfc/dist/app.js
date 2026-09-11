@@ -277,7 +277,6 @@
     var hdr = el('header', 'hdr');
     var hin = el('div', 'hdr-in');
     var brand = el('div', 'brand');
-    if (page.client.logo) { var img = el('img'); img.src = page.client.logo; img.alt = t(page.client.name); brand.appendChild(img); }
     brand.appendChild(el('span', 'nm', esc(t(page.client.short || page.client.name))));
     hin.appendChild(brand);
     var langs = el('nav', 'langs');
@@ -294,6 +293,28 @@
     hin.appendChild(langs);
     hdr.appendChild(hin);
     root.appendChild(hdr);
+
+    /* banner: client hero image + logo (falls back to colored band / text) */
+    var bn = el('section', 'banner');
+    if (page.client.theme) bn.style.setProperty('--theme', page.client.theme);
+    if (page.client.hero) {
+      var hi = el('img', 'hero-img'); hi.alt = ''; hi.referrerPolicy = 'no-referrer';
+      hi.onload = function () { bn.classList.add('has-hero'); };
+      hi.onerror = function () { hi.remove(); };
+      hi.src = page.client.hero; bn.appendChild(hi);
+      if (page.client.hero_credit) bn.appendChild(el('span', 'credit', esc(page.client.hero_credit)));
+    }
+    var lc = el('div', 'logo-card');
+    var lname = el('div', 'lname', esc(t(page.client.name)));
+    if (page.client.logo) {
+      var li = el('img', 'logo'); li.alt = t(page.client.name); li.referrerPolicy = 'no-referrer';
+      li.onload = function () { lc.classList.add('has-logo'); };
+      li.onerror = function () { li.remove(); };
+      li.src = page.client.logo; lc.appendChild(li);
+    }
+    lc.appendChild(lname);
+    bn.appendChild(lc);
+    root.appendChild(bn);
 
     var wrap = el('div', 'wrap');
     /* hero */

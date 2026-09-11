@@ -46,7 +46,14 @@ tw-nfc/
   - `route(name, frm=출발지, desc, steps=[T…], modes=["transit","driving"], dest=목적지, km, drive_min)` — 교통 카드. 버튼: 대중교통 / 택시·자동차. 목적지는 `dest` > 페이지 `dest` > `origin`.
   - `tip(title, text)` — 노란 안내 박스. `info([(k, v, href), …])` — key/value 표(전화는 `tel:`, 링크는 https).
 - 페이지: `PAGES[slug] = {client, origin, dest?, kicker?, title, subtitle?, sections:[section(title, items)], footer?}`
-- 클라이언트 로고: `place(..., logo="logo/lin.png")` 추가하면 헤더에 표시(현재는 텍스트만). 로고 파일 위치는 §8.
+- 클라이언트 배너: `place(..., logo=URL, hero=URL, hero_credit=…, theme="#hex")`. 헤더 아래에 대표사진(hero) + 로고 카드가 뜬다.
+  hero가 없으면 theme 색 그라데이션 배너. 이미지 로드 실패 시 자동으로 텍스트 이름으로 대체(onerror).
+  현재 로고 4개는 클라이언트 사이트 **핫링크**(§8 URL) → 사이트가 바뀌면 깨질 수 있으니 확정 후 `dist/img/`에 로컬 복사 권장.
+- 사진: `poi(..., photo=URL 또는 "img/xxx.jpg", credit="…", emoji="🧋")`. 없으면 태그 기반 이모지 플레이스홀더.
+  명소 16곳은 위키미디어 공용 `commons("파일명")` 썸네일(작가/라이선스는 파일 페이지에서 확인 필요, 웹 표시 시 credit 표기됨).
+  식당 6+6곳은 해당 매장 자유이용 사진이 없어 이모지 → 클라이언트에 사진 요청해서 `dist/img/`에 넣고 photo= 연결.
+- 지도: Leaflet 1.9.4(`dist/vendor/`) + CARTO Voyager 타일(OSM 기반, 키 불필요). 클라이언트=검정 핀, POI=번호 핀(카드 번호와 일치), 출발역=회색 핀.
+  핀 팝업의 정보/길찾기 버튼은 구글맵 링크. 구글 지도 타일을 쓰려면 Maps JavaScript API 키가 필요해 채택 안 함.
 
 ## 6. 빌드·미리보기·배포
 ```bash
@@ -76,6 +83,7 @@ cd dist && python3 -m http.server 8765      # http://localhost:8765/lin.html?lan
 - 벡터 없는 3곳(린호텔·味榮·康茵)은 클라이언트에 AI 파일 요청. 이주홍님 방향은 "캐릭터 말고 로고".
 
 ## 9. 남은 일
+0. 사진·로고 URL이 실제로 뜨는지 배포 페이지에서 확인(샌드박스에선 외부 이미지 차단이라 미검증). 깨진 건 이모지/텍스트로 폴백됨.
 1. 대니님 국문 검수 → data3.py 수정 → `python3 data3.py` → 커밋(Pages 자동) 또는 `vercel --prod`.
 2. §7 항목 구글맵/전화로 재확인.
 3. 최종 주소 확정(커스텀 도메인 검토) → NFC 태그 기록.

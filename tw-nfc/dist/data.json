@@ -26,7 +26,11 @@
      "zh": "林酒店",
      "en": "The Lin Hotel",
      "ko": "린 호텔"
-    }
+    },
+    "logo": "https://static.wixstatic.com/media/0b7d63_163fc4ed42a548ef97e7262b6d6c356a~mv2.png",
+    "hero": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Lin_Hotel_Taichung_and_National_Trade_Center.jpg?width=900",
+    "hero_credit": "Wikimedia Commons",
+    "theme": "#1c2b4a"
    },
    "origin": {
     "name": {
@@ -47,7 +51,11 @@
      "zh": "林酒店",
      "en": "The Lin Hotel",
      "ko": "린 호텔"
-    }
+    },
+    "logo": "https://static.wixstatic.com/media/0b7d63_163fc4ed42a548ef97e7262b6d6c356a~mv2.png",
+    "hero": "https://commons.wikimedia.org/wiki/Special:FilePath/The_Lin_Hotel_Taichung_and_National_Trade_Center.jpg?width=900",
+    "hero_credit": "Wikimedia Commons",
+    "theme": "#1c2b4a"
    },
    "kicker": {
     "zh": "Taichung Hotel Association",
@@ -291,6 +299,8 @@
         "en": "台中市西屯區朝富路30號",
         "ko": "台中市西屯區朝富路30號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Maple_Garden_in_Taichung_2017.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "飯店旁的下凹式湖景公園，夜景迷人。",
         "en": "Sunken lakeside park next to the hotel, lovely at night.",
@@ -324,6 +334,8 @@
         "en": "台中市西屯區惠來路二段101號",
         "ko": "台中市西屯區惠來路二段101號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/2017-10-29_National_Taichung_Theater.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "伊東豊雄設計的曲牆建築地標，免費參觀。",
         "en": "Toyo Ito's curved-wall landmark; free to explore.",
@@ -357,6 +369,8 @@
         "en": "台中市西屯區台灣大道三段251號",
         "ko": "台中市西屯區台灣大道三段251號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/%E9%81%A0%E6%9D%B1%E7%99%BE%E8%B2%A8-Top_City_%284%29.JPG?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "台中最大百貨，鄰新光三越，餐廳影城齊全。",
         "en": "Taichung's largest mall, next to Shin Kong Mitsukoshi.",
@@ -390,6 +404,8 @@
         "en": "台中市西屯區台灣大道三段99號",
         "ko": "台中市西屯區台灣大道三段99號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Taichung_City_Hall_20190712.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "瑞士建築師設計的市政大樓與廣場。",
         "en": "Swiss-designed city hall and civic plaza.",
@@ -418,6 +434,8 @@
         "en": "台中市西屯區文華路",
         "ko": "台中市西屯區文華路"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Feng_Chia_Night_Market%2C_Taichung.JPG?width=900",
+       "credit": "Wikimedia Commons · Rybloo · CC BY-SA 3.0",
        "desc": {
         "zh": "全台規模最大的夜市，小吃創意百出。",
         "en": "Taiwan's largest night market, packed with creative snacks.",
@@ -451,6 +469,8 @@
         "en": "台中市南屯區文心路一段289號",
         "ko": "台中市南屯區文心路一段289號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/2022_Wenshin_Forest_Park_01.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "8.8 公頃綠地，內有圓滿戶外劇場。",
         "en": "8.8-hectare green space with the Fulfillment Amphitheater.",
@@ -522,7 +542,9 @@
      "zh": "康茵行旅",
      "en": "Comin' Place",
      "ko": "康茵行旅"
-    }
+    },
+    "logo": "https://comingplace.com/wp-content/uploads/2019/12/%E4%B8%AD%E8%8B%B1%E6%96%87LOGO%EF%BC%88%E7%81%B0%EF%BC%89.png",
+    "theme": "#3b5d50"
    },
    "origin": {
     "name": {
@@ -543,7 +565,9 @@
      "zh": "康茵行旅",
      "en": "Comin' Place",
      "ko": "康茵行旅"
-    }
+    },
+    "logo": "https://comingplace.com/wp-content/uploads/2019/12/%E4%B8%AD%E8%8B%B1%E6%96%87LOGO%EF%BC%88%E7%81%B0%EF%BC%89.png",
+    "theme": "#3b5d50"
    },
    "kicker": {
     "zh": "Taichung Hotel Association",
@@ -787,6 +811,8 @@
         "en": "台中市烏日區光華街1號",
         "ko": "台中市烏日區光華街1號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Wurih_Brewery_Tourism_Factory_20230415.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "台灣啤酒生產基地，巨型啤酒箱打卡與產品推廣中心免費參觀。",
         "en": "Taiwan Beer's brewery with a giant beer-crate photo spot and free product center.",
@@ -820,6 +846,8 @@
         "en": "台中市南屯區筏子東街一段33-59號",
         "ko": "台中市南屯區筏子東街一段33-59號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Fazi_River_and_the_viaduct_of_high_speed_rail_in_Taichung_2006-11-19.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "1.8 公里河岸步道與 4 公尺高 TAICHUNG 立體字，夜間點燈。",
         "en": "1.8 km riverside walk with the 4 m TAICHUNG sign, lit up at night.",
@@ -853,6 +881,8 @@
         "en": "台中市南屯區春安路56巷25號",
         "ko": "台中市南屯區春安路56巷25號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Taichung_Rainbow_Village_44.jpg?width=900",
+       "credit": "Wikimedia Commons · Zairon · CC BY-SA 4.0",
        "desc": {
         "zh": "彩虹爺爺的繽紛彩繪村，2023 年整修後重新開放，免費參觀。",
         "en": "Colorful painted village by “Rainbow Grandpa”, reopened in 2023, free entry.",
@@ -885,6 +915,8 @@
         "en": "台中市南屯區中台路601號",
         "ko": "台中市南屯區中台路601號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/%E6%9C%9B%E9%AB%98%E5%AF%AE%E5%A4%9C%E6%99%AF%E5%85%AC%E5%9C%92.JPG?width=900",
+       "credit": "Wikimedia Commons · Fcuk1203 · CC BY-SA 3.0",
        "desc": {
         "zh": "大肚山上的百萬夜景平台，可眺望台中市區與台中港。",
         "en": "Hilltop lookout on Dadu Mountain with sweeping Taichung night views.",
@@ -917,6 +949,8 @@
         "en": "台中市西屯區台灣大道四段1727號 東海大學",
         "ko": "台中市西屯區台灣大道四段1727號 東海大學"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Luce_Memorial_Chapel_2017.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "貝聿銘與陳其寬設計的帆形教堂，台中經典現代建築地標。",
         "en": "Iconic sail-shaped chapel by I. M. Pei and Chen Chi-kwan on a leafy campus.",
@@ -988,7 +1022,9 @@
      "zh": "味噌釀造文化館",
      "en": "Miso Culture Museum",
      "ko": "미소 양조 문화관"
-    }
+    },
+    "logo": "https://www.sauceco.com.tw/theme-b67/images/logo.png",
+    "theme": "#7a4a1e"
    },
    "origin": {
     "name": {
@@ -1009,7 +1045,9 @@
      "zh": "味噌釀造文化館",
      "en": "Miso Culture Museum",
      "ko": "미소 양조 문화관"
-    }
+    },
+    "logo": "https://www.sauceco.com.tw/theme-b67/images/logo.png",
+    "theme": "#7a4a1e"
    },
    "dest": {
     "name": {
@@ -1030,7 +1068,9 @@
      "zh": "味噌釀造文化館",
      "en": "Miso Culture Museum",
      "ko": "미소 양조 문화관"
-    }
+    },
+    "logo": "https://www.sauceco.com.tw/theme-b67/images/logo.png",
+    "theme": "#7a4a1e"
    },
    "kicker": {
     "zh": "味榮食品 Wei Jung Foods",
@@ -1387,7 +1427,11 @@
      "zh": "暨大 觀餐系",
      "en": "NCNU Tourism & Hospitality",
      "ko": "지난대 관광호텔학과"
-    }
+    },
+    "logo": "https://www.tourism.ncnu.edu.tw/wp-content/uploads/2021/03/web_logo_v2.png",
+    "hero": "https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_National_ChiNan_University.JPG?width=900",
+    "hero_credit": "Wikimedia Commons · CC BY-SA 2.5",
+    "theme": "#1f4d3a"
    },
    "origin": {
     "name": {
@@ -1408,7 +1452,11 @@
      "zh": "暨大 觀餐系",
      "en": "NCNU Tourism & Hospitality",
      "ko": "지난대 관광호텔학과"
-    }
+    },
+    "logo": "https://www.tourism.ncnu.edu.tw/wp-content/uploads/2021/03/web_logo_v2.png",
+    "hero": "https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_National_ChiNan_University.JPG?width=900",
+    "hero_credit": "Wikimedia Commons · CC BY-SA 2.5",
+    "theme": "#1f4d3a"
    },
    "dest": {
     "name": {
@@ -1429,7 +1477,11 @@
      "zh": "暨大 觀餐系",
      "en": "NCNU Tourism & Hospitality",
      "ko": "지난대 관광호텔학과"
-    }
+    },
+    "logo": "https://www.tourism.ncnu.edu.tw/wp-content/uploads/2021/03/web_logo_v2.png",
+    "hero": "https://commons.wikimedia.org/wiki/Special:FilePath/Taiwan_National_ChiNan_University.JPG?width=900",
+    "hero_credit": "Wikimedia Commons · CC BY-SA 2.5",
+    "theme": "#1f4d3a"
    },
    "kicker": {
     "zh": "管理學院 338 室",
@@ -1780,6 +1832,8 @@
         "en": "南投縣埔里鎮桃米里桃米巷52-12號",
         "ko": "南投縣埔里鎮桃米里桃米巷52-12號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Paper_Dome%2C_Puli_%28Taiwan%29.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "來自神戶的 921 重建紀念紙管教堂，坐落桃米生態村荷花池畔。",
         "en": "Paper-tube church from Kobe, a 921-quake memorial beside Taomi's lotus pond.",
@@ -1812,6 +1866,8 @@
         "en": "南投縣埔里鎮中山路三段219號",
         "ko": "南投縣埔里鎮中山路三段219號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/TTL_Puli_Brewery_entrance_rear_20170819.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "紹興酒故鄉，免門票參觀酒甕隧道、酒文化館與伴手禮。",
         "en": "Home of Shaoxing wine; free entry to the wine-jar tunnel, museum and gift shop.",
@@ -1876,6 +1932,8 @@
         "en": "南投縣埔里鎮鐵山路310號",
         "ko": "南投縣埔里鎮鐵山路310號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/Traditional_paper_making_Goang_Xing_Paper_Mill_Taiwan_02.jpg?width=900",
+       "credit": "Wikimedia Commons · Tsurumi Paper Co.",
        "desc": {
         "zh": "台灣第一家手工造紙觀光工廠，免費導覽與造紙、拓印 DIY。",
         "en": "Taiwan's first handmade-paper tourist factory with free tours and DIY.",
@@ -1908,6 +1966,8 @@
         "en": "南投縣埔里鎮中台路2號",
         "ko": "南投縣埔里鎮中台路2號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/%E4%B8%AD%E5%8F%B0%E7%A6%AA%E5%AF%BA_Chung_Tai_Chan_Monastery_-_panoramio.jpg?width=900",
+       "credit": "Wikimedia Commons",
        "desc": {
         "zh": "李祖原設計的宏偉現代佛寺，園區免費，附設中台世界博物館。",
         "en": "Monumental modern Buddhist monastery by C.Y. Lee; free grounds, museum ticketed.",
@@ -1940,6 +2000,8 @@
         "en": "南投縣魚池鄉中山路599號",
         "ko": "南投縣魚池鄉中山路599號"
        },
+       "photo": "https://commons.wikimedia.org/wiki/Special:FilePath/View_of_Sun_Moon_Lake_from_Wen_Wu_Temple_02.jpg?width=900",
+       "credit": "Wikimedia Commons · Dquai · CC BY-SA 4.0",
        "desc": {
         "zh": "台灣最大高山湖泊，清水模遊客中心可眺望湖景、租自行車環湖。",
         "en": "Taiwan's largest alpine lake; lakeside visitor center, cycling and boat cruises.",
