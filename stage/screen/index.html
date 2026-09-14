@@ -2,52 +2,79 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="robots" content="noindex"><link rel="icon" href="data:,">
 <title>무대 화면</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
 <style>
-:root{--bg:#07070a;--ink:#fff;--sub:#9a9aa6;--acc:#ff4d6d;--acc2:#ffb454}
+:root{--bg:#0a0a0f;--ink:#ffffff;--sub:rgba(255,255,255,.55);--line:rgba(255,255,255,.1)
+  ;--c1:#ff6b8a;--c2:#ffb547;--c3:#4fe3b0;--c4:#5cb4ff;--c5:#b58cff}
 *{box-sizing:border-box}html,body{height:100%}
-body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;overflow:hidden;cursor:none}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Pretendard Variable",Pretendard,-apple-system,"Apple SD Gothic Neo","Noto Sans KR",system-ui,sans-serif;overflow:hidden;cursor:none;-webkit-font-smoothing:antialiased}
 body.showcursor{cursor:default}
-.top{position:fixed;left:0;right:0;top:0;padding:2.2vh 3vw;display:flex;justify-content:space-between;align-items:center;z-index:3;pointer-events:none}
-.top .t{font-size:2.6vh;font-weight:800;letter-spacing:-.01em;color:var(--sub)}
-.top .t b{color:var(--ink)}
-.qr{display:flex;align-items:center;gap:1.2vw;background:#fff;color:#111;border-radius:1.4vh;padding:1vh 1.2vw}
-.qr canvas,.qr img{width:9vh;height:9vh;display:block}
-.qr .u{font-size:1.7vh;font-weight:800;line-height:1.3}.qr .u small{display:block;font-weight:600;color:#555;font-size:1.4vh}
-.wall{position:absolute;inset:0;padding:12vh 3vw 4vh;display:flex;flex-wrap:wrap;align-content:flex-end;align-items:flex-end;gap:1.6vh 1.2vw;transition:filter .4s,opacity .4s}
-.wall.dim{filter:blur(6px) brightness(.35);opacity:.6}
-.b{position:relative;max-width:34vw;background:#1c1c24;border:1px solid #2c2c36;border-radius:2.4vh;padding:1.6vh 2vw;font-size:2.6vh;line-height:1.35;word-break:break-word;white-space:pre-wrap;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;transform-origin:bottom left}
-.b.s{font-size:3.2vh}.b.l{font-size:2.2vh;max-width:40vw}
-.b .n{display:block;font-size:1.7vh;font-weight:800;color:var(--acc2);margin-bottom:.4vh}
-.b:nth-child(4n+1){background:#22182a;border-color:#3a2a48}.b:nth-child(4n+2){background:#14212a;border-color:#22384a}.b:nth-child(4n+3){background:#26201a;border-color:#3f3428}
-.b.old{opacity:.55}
-@keyframes pop{from{transform:scale(.4) translateY(3vh);opacity:0}to{transform:none;opacity:1}}
-.feat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:8vh 8vw;z-index:2;opacity:0;pointer-events:none;transition:opacity .35s}
+body.paused .top{opacity:0}
+/* background: slow drifting glows */
+.bg{position:fixed;inset:0;overflow:hidden;z-index:0}
+.bg i{position:absolute;width:70vmax;height:70vmax;border-radius:50%;filter:blur(90px);opacity:.35;mix-blend-mode:screen}
+.bg i:nth-child(1){background:#4b2a6a;left:-20vmax;top:-25vmax;animation:d1 38s ease-in-out infinite alternate}
+.bg i:nth-child(2){background:#1d3b63;right:-25vmax;bottom:-30vmax;animation:d2 46s ease-in-out infinite alternate}
+.bg i:nth-child(3){background:#5a2436;left:30vw;top:40vh;width:50vmax;height:50vmax;opacity:.22;animation:d3 52s ease-in-out infinite alternate}
+@keyframes d1{to{transform:translate(12vw,10vh)}}@keyframes d2{to{transform:translate(-14vw,-8vh)}}@keyframes d3{to{transform:translate(-10vw,-14vh) scale(1.15)}}
+.bg::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 45%,rgba(0,0,0,.55) 100%)}
+/* header */
+.top{position:fixed;left:0;right:0;top:0;padding:3vh 3.5vw 0;display:flex;justify-content:space-between;align-items:flex-start;z-index:3;pointer-events:none}
+.brand{display:flex;flex-direction:column;gap:.6vh}
+.brand .k{font-size:1.5vh;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--sub)}
+.brand .t{font-size:3.4vh;font-weight:800;letter-spacing:-.02em;line-height:1.15}
+.qr{display:flex;align-items:center;gap:1.4vh;background:#fff;color:#111;border-radius:2vh;padding:1.2vh 1.6vh 1.2vh 1.2vh;box-shadow:0 1vh 4vh rgba(0,0,0,.4)}
+.qr canvas{width:10vh;height:10vh;display:block;border-radius:.8vh}
+.qr .u{font-size:1.9vh;font-weight:800;line-height:1.3;letter-spacing:-.01em}.qr .u small{display:block;font-weight:600;color:#666;font-size:1.45vh;margin-bottom:.3vh;letter-spacing:.02em}
+/* grid wall */
+.wall{position:absolute;left:3.5vw;right:3.5vw;top:14vh;bottom:5vh;display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(4,1fr);grid-auto-rows:0;gap:2vh 1.4vw;z-index:1;transition:filter .5s,opacity .5s}
+.wall.dim{filter:blur(10px) brightness(.4);opacity:.7}
+.c{--a:var(--c1);position:relative;display:flex;flex-direction:column;justify-content:center;gap:1.2vh;padding:2.8vh 3vh;border-radius:2.6vh;background:rgba(255,255,255,.06);border:1px solid var(--line);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);overflow:hidden;min-height:0;box-shadow:inset 0 1px 0 rgba(255,255,255,.08)}
+.c::before{content:"";position:absolute;left:0;top:0;bottom:0;width:.6vh;background:var(--a);box-shadow:0 0 3vh var(--a)}
+.c.a1{--a:var(--c1)}.c.a2{--a:var(--c2)}.c.a3{--a:var(--c3)}.c.a4{--a:var(--c4)}.c.a5{--a:var(--c5)}
+.c .bd{font-size:3.1vh;font-weight:600;line-height:1.38;letter-spacing:-.015em;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;display:-webkit-box;-webkit-line-clamp:4;-webkit-box-orient:vertical;overflow:hidden}
+.c.s .bd{font-size:4.2vh;font-weight:700}.c.l .bd{font-size:2.5vh;-webkit-line-clamp:5}
+.c .nm{font-size:1.8vh;font-weight:700;color:var(--a);letter-spacing:.02em;display:flex;align-items:center;gap:.8vh}
+.c .nm::before{content:"";width:1.6vh;height:2px;background:var(--a);opacity:.8}
+.c.in{animation:enter .6s cubic-bezier(.2,1.1,.3,1) both}
+@keyframes enter{from{opacity:0;transform:translateY(-3vh) scale(.94)}to{opacity:1;transform:none}}
+.c.out{animation:leave .35s ease-in both}
+@keyframes leave{to{opacity:0;transform:scale(.92)}}
+/* featured */
+.feat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:10vh 9vw;z-index:2;opacity:0;pointer-events:none;transition:opacity .4s}
 .feat.on{opacity:1}
-.feat .box{max-width:84vw;text-align:center;animation:zoom .5s cubic-bezier(.2,1.2,.4,1) both}
-.feat .n{font-size:3.4vh;font-weight:800;color:var(--acc2);margin-bottom:2vh}
-.feat .bd{font-size:7vh;line-height:1.28;font-weight:800;letter-spacing:-.02em;word-break:keep-all;white-space:pre-wrap;text-shadow:0 0 6vh rgba(255,77,109,.35)}
-.feat .bd.long{font-size:5vh}.feat .bd.xlong{font-size:3.8vh}
-@keyframes zoom{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
-.hold{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:3vh;z-index:4;background:var(--bg)}
+.feat .box{--a:var(--c1);position:relative;max-width:82vw;text-align:center;animation:zoom .55s cubic-bezier(.2,1.1,.3,1) both}
+.feat .q{font-size:14vh;line-height:.6;font-weight:800;color:var(--a);opacity:.9;display:block;margin-bottom:3vh;text-shadow:0 0 6vh var(--a)}
+.feat .bd{font-size:7.2vh;line-height:1.28;font-weight:700;letter-spacing:-.025em;word-break:keep-all;overflow-wrap:anywhere;white-space:pre-wrap;text-shadow:0 .4vh 3vh rgba(0,0,0,.6)}
+.feat .bd.long{font-size:5.4vh}.feat .bd.xlong{font-size:4.2vh}
+.feat .nm{margin-top:4vh;font-size:2.8vh;font-weight:700;color:var(--a);letter-spacing:.04em}
+.feat .nm::before{content:"— "}
+@keyframes zoom{from{transform:scale(.85);opacity:0}to{transform:none;opacity:1}}
+/* hold */
+.hold{position:absolute;inset:0;background:rgba(10,10,15,.94);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:none;flex-direction:column;align-items:center;justify-content:center;gap:5vh;z-index:4;text-align:center}
 .hold.on{display:flex}
-.hold h1{font-size:6vh;margin:0;letter-spacing:-.02em;text-align:center}
-.hold .qr{padding:2vh 2vw}.hold .qr canvas,.hold .qr img{width:28vh;height:28vh}
+.hold .k{font-size:2vh;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:var(--sub)}
+.hold h1{font-size:7vh;margin:1vh 0 0;letter-spacing:-.03em;font-weight:800;line-height:1.15}
+.hold .qr{padding:2.4vh}.hold .qr canvas{width:30vh;height:30vh}
 .hold .u{font-size:3vh}.hold .u small{font-size:2vh}
-.empty{position:absolute;left:0;right:0;bottom:6vh;text-align:center;color:var(--sub);font-size:2.4vh;z-index:1}
-.st{position:fixed;left:1vw;bottom:1vh;font-size:1.4vh;color:#333;z-index:5}
+.empty{position:absolute;left:0;right:0;top:50%;transform:translateY(-50%);text-align:center;color:var(--sub);font-size:3vh;font-weight:600;z-index:1;letter-spacing:-.01em}
+.empty b{display:block;font-size:6vh;color:var(--ink);margin-bottom:1.5vh;letter-spacing:-.03em}
+.st{position:fixed;left:1vw;bottom:1vh;font-size:1.4vh;color:rgba(255,255,255,.18);z-index:5}
+.st.bad{color:var(--c2)}
 </style></head><body>
-<div class="top"><div class="t" id="title"></div><div class="qr" id="qrtop"><canvas id="qr1"></canvas><div class="u" id="u1"></div></div></div>
+<div class="bg"><i></i><i></i><i></i></div>
+<div class="top"><div class="brand"><div class="k">Live Message</div><div class="t" id="title"></div></div><div class="qr"><canvas id="qr1"></canvas><div class="u" id="u1"></div></div></div>
 <div class="wall" id="wall"></div>
-<div class="empty" id="empty" hidden>아직 메시지가 없어요. QR을 찍고 첫 메시지를 보내주세요!</div>
-<div class="feat" id="feat"><div class="box"><div class="n" id="fn"></div><div class="bd" id="fb"></div></div></div>
-<div class="hold" id="hold"><h1 id="htitle"></h1><div class="qr"><canvas id="qr2"></canvas><div class="u" id="u2"></div></div></div>
-<div class="st" id="st">connecting…</div>
+<div class="empty" id="empty" hidden><b>첫 메시지를 기다리고 있어요</b>QR을 찍고 무대에 한마디 남겨주세요</div>
+<div class="feat" id="feat"><div class="box" id="fbox"><span class="q">“</span><div class="bd" id="fb"></div><div class="nm" id="fn"></div></div></div>
+<div class="hold" id="hold"><div><div class="k">Live Message</div><h1 id="htitle"></h1></div><div class="qr"><canvas id="qr2"></canvas><div class="u" id="u2"></div></div></div>
+<div class="st" id="st"></div>
 <script src="../vendor/supabase.js"></script><script src="../vendor/qrcode.js"></script><script src="../config.js"></script>
 <script>
 (function(){
   var sb = supabase.createClient(STAGE_CONFIG.url, STAGE_CONFIG.key);
   var $ = function(id){ return document.getElementById(id); };
-  var MAX = 40;
+  var MAX = 12; // 3 x 4 그리드
   var msgs = {}, order = [], settings = {moderation:true, paused:false, featured_id:null, title:''};
   var audienceUrl = location.origin + location.pathname.replace(/screen\/?(index\.html)?$/, '');
   function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
@@ -58,35 +85,56 @@ body.showcursor{cursor:default}
     for (var r=0;r<n;r++) for (var col=0;col<n;col++) if (q.isDark(r,col)) ctx.fillRect(col*cell, r*cell, cell, cell);
   }
   var shown = audienceUrl.replace(/^https?:\/\//,'').replace(/\/$/,'');
-  $('u1').innerHTML = '<small>QR 찍고 메시지 보내기</small>' + esc(shown);
-  $('u2').innerHTML = '<small>QR 찍고 메시지 보내기</small>' + esc(shown);
+  $('u1').innerHTML = '<small>QR을 찍고 메시지 보내기</small>' + esc(shown);
+  $('u2').innerHTML = '<small>QR을 찍고 메시지 보내기</small>' + esc(shown);
   drawQR('qr1', 400); drawQR('qr2', 800);
 
-  function sizeClass(b){ return b.length <= 12 ? 's' : b.length > 70 ? 'l' : ''; }
+  function hue(id){ var h = 0; for (var i=0;i<id.length;i++) h = (h*31 + id.charCodeAt(i)) >>> 0; return 'a' + (h % 5 + 1); }
+  function sizeClass(b){ return b.length <= 14 ? 's' : b.length > 80 ? 'l' : ''; }
+  function cardEl(m){
+    var el = document.createElement('div'); el.dataset.id = m.id; el.className = 'c ' + hue(m.id) + ' ' + sizeClass(m.body);
+    el.innerHTML = '<div class="bd">' + esc(m.body) + '</div>' + (m.name ? '<div class="nm">' + esc(m.name) + '</div>' : '');
+    return el;
+  }
   function renderWall(){
     var wall = $('wall');
     var ids = order.filter(function(id){ return msgs[id] && msgs[id].status === 'approved'; });
-    var keep = ids.slice(-MAX);
-    // remove gone
-    Array.prototype.slice.call(wall.children).forEach(function(el){ if (keep.indexOf(el.dataset.id) < 0) el.remove(); });
+    var keep = ids.slice(-MAX).reverse();            // 최신이 앞
+    var cur = Array.prototype.slice.call(wall.children);
+    // FLIP: 기존 위치 기록
+    var first = {}; cur.forEach(function(el){ first[el.dataset.id] = el.getBoundingClientRect(); });
+    cur.forEach(function(el){ if (keep.indexOf(el.dataset.id) < 0) { el.classList.add('out'); setTimeout(function(){ el.remove(); }, 340); } });
     keep.forEach(function(id, i){
-      var m = msgs[id], el = wall.querySelector('[data-id="'+id+'"]');
-      if (!el) { el = document.createElement('div'); el.dataset.id = id; el.className = 'b ' + sizeClass(m.body);
-        el.innerHTML = (m.name ? '<span class="n">'+esc(m.name)+'</span>' : '') + esc(m.body); wall.appendChild(el); }
-      el.classList.toggle('old', keep.length - i > 14);
+      var el = wall.querySelector('[data-id="'+id+'"]');
+      if (!el) { el = cardEl(msgs[id]); el.classList.add('in'); }
+      var ref = wall.children[i];
+      if (ref !== el) wall.insertBefore(el, ref || null);
+    });
+    // 밀려나는 카드 이동 애니메이션
+    keep.forEach(function(id){
+      var el = wall.querySelector('[data-id="'+id+'"]'), f = first[id]; if (!el || !f) return;
+      var l = el.getBoundingClientRect(), dx = f.left - l.left, dy = f.top - l.top;
+      if (!dx && !dy) return;
+      el.style.transition = 'none'; el.style.transform = 'translate(' + dx + 'px,' + dy + 'px)';
+      requestAnimationFrame(function(){ el.style.transition = 'transform .55s cubic-bezier(.2,1,.3,1)'; el.style.transform = ''; });
     });
     $('empty').hidden = keep.length > 0 || settings.paused;
   }
   function renderFeat(){
     var m = settings.featured_id && msgs[settings.featured_id];
     var on = !!(m && m.status === 'approved' && !settings.paused);
-    if (on) { $('fn').textContent = m.name || ''; $('fb').textContent = m.body; $('fb').className = 'bd ' + (m.body.length > 120 ? 'xlong' : m.body.length > 50 ? 'long' : ''); }
+    if (on) {
+      $('fbox').className = 'box ' + hue(m.id);
+      $('fb').textContent = m.body; $('fb').className = 'bd ' + (m.body.length > 110 ? 'xlong' : m.body.length > 45 ? 'long' : '');
+      $('fn').textContent = m.name || ''; $('fn').style.display = m.name ? '' : 'none';
+    }
     $('feat').classList.toggle('on', on); $('wall').classList.toggle('dim', on);
   }
   function renderSettings(){
-    $('title').innerHTML = '<b>'+esc(settings.title || '')+'</b>';
+    $('title').textContent = settings.title || '무대에 메시지를 보내주세요';
     $('htitle').textContent = settings.title || '무대에 메시지를 보내주세요';
     $('hold').classList.toggle('on', !!settings.paused);
+    document.body.classList.toggle('paused', !!settings.paused);
     renderWall(); renderFeat();
   }
   function upsert(m){ if (!msgs[m.id]) order.push(m.id); msgs[m.id] = m; }
@@ -101,17 +149,15 @@ body.showcursor{cursor:default}
     });
   }
   loadAll();
-  var ch = sb.channel('screen')
+  sb.channel('screen')
     .on('postgres_changes',{event:'*',schema:'public',table:'stage_messages'},function(p){
       if (p.eventType === 'DELETE') { delete msgs[p.old.id]; order = order.filter(function(i){return i!==p.old.id;}); }
       else upsert(p.new);
       renderWall(); renderFeat();
     })
     .on('postgres_changes',{event:'*',schema:'public',table:'stage_settings'},function(p){ if (p.new) { settings = p.new; renderSettings(); } })
-    .subscribe(function(s){ $('st').textContent = s; if (s === 'SUBSCRIBED') loadAll(); });
-  // 안전망: 60초마다 재동기화 (Realtime 끊김 대비)
+    .subscribe(function(s){ var ok = s === 'SUBSCRIBED'; $('st').textContent = ok ? '' : '연결 중… (' + s + ')'; $('st').className = 'st' + (ok ? '' : ' bad'); if (ok) loadAll(); });
   setInterval(loadAll, 60000);
-  // 마우스 움직이면 커서 잠깐 표시, F 키 전체화면
   var hideT; document.addEventListener('mousemove', function(){ document.body.classList.add('showcursor'); clearTimeout(hideT); hideT = setTimeout(function(){ document.body.classList.remove('showcursor'); }, 2000); });
   document.addEventListener('keydown', function(e){ if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } });
 })();
