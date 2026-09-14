@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex"><link rel="icon" href="data:,">
+<title>무대 메시지 운영</title>
+<link rel="stylesheet" href="../common.css">
+<style>
+.wrap{max-width:720px}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:var(--r);padding:14px;margin-bottom:14px}
+.panel h2{font-size:13px;color:var(--sub);margin:0 0 10px;letter-spacing:.05em;text-transform:uppercase}
+.sw{display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-top:1px solid var(--line)}
+.sw:first-of-type{border-top:0}
+.sw b{font-size:15px}.sw small{display:block;color:var(--mut);font-size:12px;font-weight:400}
+.tg{position:relative;width:52px;height:30px;border-radius:999px;background:#333;border:0;cursor:pointer;flex:none}
+.tg::after{content:"";position:absolute;top:3px;left:3px;width:24px;height:24px;border-radius:50%;background:#fff;transition:left .15s}
+.tg[aria-checked="true"]{background:var(--ok)}.tg[aria-checked="true"]::after{left:25px}
+.tabs{display:flex;gap:6px;margin:6px 0 12px}
+.tabs button{flex:1;border:1px solid var(--line);background:var(--surf);color:var(--sub);border-radius:10px;padding:8px;font-weight:800;cursor:pointer}
+.tabs button[aria-selected="true"]{background:#fff;color:#111;border-color:#fff}
+.tabs .n{font-weight:600;opacity:.7}
+.msg{display:flex;flex-direction:column;gap:8px}
+.msg .body{min-width:0}
+.msg .act{display:flex;flex-wrap:wrap;gap:6px}
+@media(min-width:600px){.msg{flex-direction:row;align-items:flex-start}.msg .body{flex:1}.msg .act{flex:none;justify-content:flex-end}}
+.msg.featured{border-color:var(--acc);box-shadow:0 0 0 2px rgba(255,77,109,.35)}
+.msg .tm{font-size:11px;color:var(--mut)}
+.links a{color:var(--acc2);font-size:13px;text-decoration:none;margin-right:12px}
+.stat{font-size:12px;color:var(--mut)}
+</style></head><body>
+<div class="wrap">
+  <div id="login">
+    <h1>무대 메시지 운영</h1><p class="sub">운영자 비밀번호를 입력하세요.</p>
+    <form id="lf"><div class="field"><input type="password" id="pw" placeholder="비밀번호" autocomplete="current-password" required></div><button class="btn pri blk" type="submit">들어가기</button></form>
+  </div>
+  <div id="app" hidden>
+    <div class="row" style="justify-content:space-between;margin-bottom:12px"><h1 style="margin:0">운영</h1><span class="stat" id="st">…</span></div>
+    <div class="panel"><h2>화면 제어</h2>
+      <div class="sw"><div><b>검수 후 표시</b><small>켜면 승인한 메시지만 무대에 뜸. 끄면 즉시 표시</small></div><button class="tg" id="tgMod" role="switch" aria-checked="true"></button></div>
+      <div class="sw"><div><b>일시정지</b><small>무대 화면을 대기 화면(QR)으로 전환</small></div><button class="tg" id="tgPause" role="switch" aria-checked="false"></button></div>
+      <div class="field" style="margin-top:10px"><label>화면 제목</label><div class="row"><input type="text" id="title" maxlength="60" style="flex:1"><button class="btn sm" id="saveTitle">저장</button></div></div>
+      <div class="row" style="margin-top:6px"><button class="btn sm" id="unfeature">크게 보기 해제</button><button class="btn sm ok" id="approveAll">대기 전체 승인</button><button class="btn sm warn" id="reset">전체 초기화</button><button class="btn sm" id="chpw">비밀번호 변경</button><button class="btn sm" id="logout">로그아웃</button></div>
+      <div class="links" style="margin-top:10px"><a href="../screen/" target="_blank">무대 화면 열기 ↗</a><a href="../" target="_blank">관객 페이지 열기 ↗</a></div>
+    </div>
+    <div class="tabs"><button id="tb-pending" aria-selected="true">대기 <span class="n" id="n-pending">0</span></button><button id="tb-approved">표시 중 <span class="n" id="n-approved">0</span></button><button id="tb-rejected">거절 <span class="n" id="n-rejected">0</span></button></div>
+    <div id="list"></div>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="../vendor/supabase.js"></script><script src="../config.js"></script>
+<script>
+(function(){
+  var sb = supabase.createClient(STAGE_CONFIG.url, STAGE_CONFIG.key);
+  var $ = function(id){ return document.getElementById(id); };
+  var pwd = null; try { pwd = sessionStorage.getItem('stage_pwd'); } catch(e){}
+  var settings = {}, msgs = [], tab = 'pending';
+  function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('on');},2000); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function admin(action, payload){
+    return sb.rpc('stage_admin', { pwd: pwd, action: action, payload: payload || {} }).then(function(r){
+      if (r.error) { toast('실패: ' + r.error.message); throw r.error; }
+      return r.data;
+    });
+  }
+  function fmt(t){ var d = new Date(t); return d.toLocaleTimeString('ko-KR',{hour:'2-digit',minute:'2-digit'}); }
+  function render(){
+    $('tgMod').setAttribute('aria-checked', String(!!settings.moderation));
+    $('tgPause').setAttribute('aria-checked', String(!!settings.paused));
+    if (document.activeElement !== $('title')) $('title').value = settings.title || '';
+    ['pending','approved','rejected'].forEach(function(s){ $('n-'+s).textContent = msgs.filter(function(m){return m.status===s;}).length; $('tb-'+s).setAttribute('aria-selected', String(s===tab)); });
+    var list = msgs.filter(function(m){ return m.status === tab; });
+    $('list').innerHTML = list.length ? list.map(function(m){
+      var f = settings.featured_id === m.id;
+      var acts = '';
+      if (tab === 'pending') acts = '<button class="btn sm ok" data-a="approve">승인</button><button class="btn sm" data-a="reject">거절</button>';
+      else if (tab === 'approved') acts = '<button class="btn sm '+(f?'pri':'')+'" data-a="feature">'+(f?'크게 보기 중':'크게 보기')+'</button><button class="btn sm" data-a="reject">내리기</button>';
+      else acts = '<button class="btn sm ok" data-a="approve">복구</button>';
+      acts += '<button class="btn sm" data-a="delete">삭제</button>';
+      return '<div class="card msg'+(f?' featured':'')+'" data-id="'+m.id+'"><div class="body">'+(m.name?'<div class="nm">'+esc(m.name)+'</div>':'')+'<div class="bd">'+esc(m.body)+'</div><div class="tm">'+fmt(m.created_at)+'</div></div><div class="act">'+acts+'</div></div>';
+    }).join('') : '<p class="hint" style="text-align:center;padding:20px 0">비어 있음</p>';
+  }
+  $('list').addEventListener('click', function(e){
+    var b = e.target.closest('button[data-a]'); if (!b) return;
+    var id = b.closest('.msg').dataset.id, a = b.dataset.a;
+    if (a === 'approve') admin('set_status', {id:id, status:'approved'});
+    else if (a === 'reject') admin('set_status', {id:id, status:'rejected'});
+    else if (a === 'delete') { if (confirm('삭제할까요?')) admin('delete', {id:id}); }
+    else if (a === 'feature') admin('feature', {id: settings.featured_id === id ? '' : id});
+  });
+  ['pending','approved','rejected'].forEach(function(s){ $('tb-'+s).addEventListener('click', function(){ tab = s; render(); }); });
+  $('tgMod').addEventListener('click', function(){ admin('set_moderation', {value: !settings.moderation}); });
+  $('tgPause').addEventListener('click', function(){ admin('set_paused', {value: !settings.paused}); });
+  $('saveTitle').addEventListener('click', function(){ admin('set_title', {value: $('title').value}).then(function(){ toast('저장됨'); }); });
+  $('unfeature').addEventListener('click', function(){ admin('feature', {id:''}); });
+  $('approveAll').addEventListener('click', function(){ admin('approve_all').then(function(r){ toast(r.count + '건 승인'); }); });
+  $('reset').addEventListener('click', function(){ if (confirm('모든 메시지를 삭제하고 화면을 비웁니다. 되돌릴 수 없습니다.')) admin('reset').then(function(r){ toast(r.count + '건 삭제'); }); });
+  $('chpw').addEventListener('click', function(){ var n = prompt('새 비밀번호 (4자 이상)'); if (n) admin('set_password', {value:n}).then(function(){ pwd = n; try{ sessionStorage.setItem('stage_pwd', n); }catch(e){} toast('변경됨'); }); });
+  $('logout').addEventListener('click', function(){ try{ sessionStorage.removeItem('stage_pwd'); }catch(e){} location.reload(); });
+  function loadAll(){
+    return Promise.all([
+      sb.from('stage_settings').select('*').eq('id',1).single(),
+      sb.from('stage_messages').select('id,name,body,status,created_at').order('created_at',{ascending:false}).limit(500)
+    ]).then(function(rs){ if(!rs[0].error) settings = rs[0].data; if(!rs[1].error) msgs = rs[1].data; render(); });
+  }
+  function start(){
+    $('login').hidden = true; $('app').hidden = false;
+    loadAll();
+    sb.channel('admin')
+      .on('postgres_changes',{event:'*',schema:'public',table:'stage_messages'},function(){ loadAll(); })
+      .on('postgres_changes',{event:'*',schema:'public',table:'stage_settings'},function(p){ if(p.new){ settings = p.new; render(); } })
+      .subscribe(function(s){ $('st').textContent = s === 'SUBSCRIBED' ? '실시간 연결됨' : s; });
+    setInterval(loadAll, 30000);
+  }
+  function tryLogin(p){
+    return sb.rpc('stage_admin', {pwd: p, action: 'ping', payload: {}}).then(function(r){
+      if (r.error) { toast('비밀번호가 틀렸습니다'); try{ sessionStorage.removeItem('stage_pwd'); }catch(e){} return; }
+      pwd = p; try { sessionStorage.setItem('stage_pwd', p); } catch(e){}
+      start();
+    });
+  }
+  $('lf').addEventListener('submit', function(e){ e.preventDefault(); tryLogin($('pw').value); });
+  if (pwd) tryLogin(pwd);
+})();
+</script></body></html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex"><link rel="icon" href="data:,">
+<title>무대 화면</title>
+<style>
+:root{--bg:#07070a;--ink:#fff;--sub:#9a9aa6;--acc:#ff4d6d;--acc2:#ffb454}
+*{box-sizing:border-box}html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,"Apple SD Gothic Neo","Pretendard","Noto Sans KR",system-ui,sans-serif;overflow:hidden;cursor:none}
+body.showcursor{cursor:default}
+.top{position:fixed;left:0;right:0;top:0;padding:2.2vh 3vw;display:flex;justify-content:space-between;align-items:center;z-index:3;pointer-events:none}
+.top .t{font-size:2.6vh;font-weight:800;letter-spacing:-.01em;color:var(--sub)}
+.top .t b{color:var(--ink)}
+.qr{display:flex;align-items:center;gap:1.2vw;background:#fff;color:#111;border-radius:1.4vh;padding:1vh 1.2vw}
+.qr canvas,.qr img{width:9vh;height:9vh;display:block}
+.qr .u{font-size:1.7vh;font-weight:800;line-height:1.3}.qr .u small{display:block;font-weight:600;color:#555;font-size:1.4vh}
+.wall{position:absolute;inset:0;padding:12vh 3vw 4vh;display:flex;flex-wrap:wrap;align-content:flex-end;align-items:flex-end;gap:1.6vh 1.2vw;transition:filter .4s,opacity .4s}
+.wall.dim{filter:blur(6px) brightness(.35);opacity:.6}
+.b{position:relative;max-width:34vw;background:#1c1c24;border:1px solid #2c2c36;border-radius:2.4vh;padding:1.6vh 2vw;font-size:2.6vh;line-height:1.35;word-break:break-word;white-space:pre-wrap;animation:pop .45s cubic-bezier(.2,1.4,.4,1) both;transform-origin:bottom left}
+.b.s{font-size:3.2vh}.b.l{font-size:2.2vh;max-width:40vw}
+.b .n{display:block;font-size:1.7vh;font-weight:800;color:var(--acc2);margin-bottom:.4vh}
+.b:nth-child(4n+1){background:#22182a;border-color:#3a2a48}.b:nth-child(4n+2){background:#14212a;border-color:#22384a}.b:nth-child(4n+3){background:#26201a;border-color:#3f3428}
+.b.old{opacity:.55}
+@keyframes pop{from{transform:scale(.4) translateY(3vh);opacity:0}to{transform:none;opacity:1}}
+.feat{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:8vh 8vw;z-index:2;opacity:0;pointer-events:none;transition:opacity .35s}
+.feat.on{opacity:1}
+.feat .box{max-width:84vw;text-align:center;animation:zoom .5s cubic-bezier(.2,1.2,.4,1) both}
+.feat .n{font-size:3.4vh;font-weight:800;color:var(--acc2);margin-bottom:2vh}
+.feat .bd{font-size:7vh;line-height:1.28;font-weight:800;letter-spacing:-.02em;word-break:keep-all;white-space:pre-wrap;text-shadow:0 0 6vh rgba(255,77,109,.35)}
+.feat .bd.long{font-size:5vh}.feat .bd.xlong{font-size:3.8vh}
+@keyframes zoom{from{transform:scale(.8);opacity:0}to{transform:none;opacity:1}}
+.hold{position:absolute;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;gap:3vh;z-index:4;background:var(--bg)}
+.hold.on{display:flex}
+.hold h1{font-size:6vh;margin:0;letter-spacing:-.02em;text-align:center}
+.hold .qr{padding:2vh 2vw}.hold .qr canvas,.hold .qr img{width:28vh;height:28vh}
+.hold .u{font-size:3vh}.hold .u small{font-size:2vh}
+.empty{position:absolute;left:0;right:0;bottom:6vh;text-align:center;color:var(--sub);font-size:2.4vh;z-index:1}
+.st{position:fixed;left:1vw;bottom:1vh;font-size:1.4vh;color:#333;z-index:5}
+</style></head><body>
+<div class="top"><div class="t" id="title"></div><div class="qr" id="qrtop"><canvas id="qr1"></canvas><div class="u" id="u1"></div></div></div>
+<div class="wall" id="wall"></div>
+<div class="empty" id="empty" hidden>아직 메시지가 없어요. QR을 찍고 첫 메시지를 보내주세요!</div>
+<div class="feat" id="feat"><div class="box"><div class="n" id="fn"></div><div class="bd" id="fb"></div></div></div>
+<div class="hold" id="hold"><h1 id="htitle"></h1><div class="qr"><canvas id="qr2"></canvas><div class="u" id="u2"></div></div></div>
+<div class="st" id="st">connecting…</div>
+<script src="../vendor/supabase.js"></script><script src="../vendor/qrcode.js"></script><script src="../config.js"></script>
+<script>
+(function(){
+  var sb = supabase.createClient(STAGE_CONFIG.url, STAGE_CONFIG.key);
+  var $ = function(id){ return document.getElementById(id); };
+  var MAX = 40;
+  var msgs = {}, order = [], settings = {moderation:true, paused:false, featured_id:null, title:''};
+  var audienceUrl = location.origin + location.pathname.replace(/screen\/?(index\.html)?$/, '');
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function drawQR(canvasId, size){
+    var q = qrcode(0, 'M'); q.addData(audienceUrl); q.make();
+    var c = $(canvasId), n = q.getModuleCount(), cell = Math.max(2, Math.floor(size / n)); c.width = c.height = cell * n;
+    var ctx = c.getContext('2d'); ctx.fillStyle = '#fff'; ctx.fillRect(0,0,c.width,c.height); ctx.fillStyle = '#111';
+    for (var r=0;r<n;r++) for (var col=0;col<n;col++) if (q.isDark(r,col)) ctx.fillRect(col*cell, r*cell, cell, cell);
+  }
+  var shown = audienceUrl.replace(/^https?:\/\//,'').replace(/\/$/,'');
+  $('u1').innerHTML = '<small>QR 찍고 메시지 보내기</small>' + esc(shown);
+  $('u2').innerHTML = '<small>QR 찍고 메시지 보내기</small>' + esc(shown);
+  drawQR('qr1', 400); drawQR('qr2', 800);
+
+  function sizeClass(b){ return b.length <= 12 ? 's' : b.length > 70 ? 'l' : ''; }
+  function renderWall(){
+    var wall = $('wall');
+    var ids = order.filter(function(id){ return msgs[id] && msgs[id].status === 'approved'; });
+    var keep = ids.slice(-MAX);
+    // remove gone
+    Array.prototype.slice.call(wall.children).forEach(function(el){ if (keep.indexOf(el.dataset.id) < 0) el.remove(); });
+    keep.forEach(function(id, i){
+      var m = msgs[id], el = wall.querySelector('[data-id="'+id+'"]');
+      if (!el) { el = document.createElement('div'); el.dataset.id = id; el.className = 'b ' + sizeClass(m.body);
+        el.innerHTML = (m.name ? '<span class="n">'+esc(m.name)+'</span>' : '') + esc(m.body); wall.appendChild(el); }
+      el.classList.toggle('old', keep.length - i > 14);
+    });
+    $('empty').hidden = keep.length > 0 || settings.paused;
+  }
+  function renderFeat(){
+    var m = settings.featured_id && msgs[settings.featured_id];
+    var on = !!(m && m.status === 'approved' && !settings.paused);
+    if (on) { $('fn').textContent = m.name || ''; $('fb').textContent = m.body; $('fb').className = 'bd ' + (m.body.length > 120 ? 'xlong' : m.body.length > 50 ? 'long' : ''); }
+    $('feat').classList.toggle('on', on); $('wall').classList.toggle('dim', on);
+  }
+  function renderSettings(){
+    $('title').innerHTML = '<b>'+esc(settings.title || '')+'</b>';
+    $('htitle').textContent = settings.title || '무대에 메시지를 보내주세요';
+    $('hold').classList.toggle('on', !!settings.paused);
+    renderWall(); renderFeat();
+  }
+  function upsert(m){ if (!msgs[m.id]) order.push(m.id); msgs[m.id] = m; }
+  function loadAll(){
+    return Promise.all([
+      sb.from('stage_settings').select('*').eq('id',1).single(),
+      sb.from('stage_messages').select('id,name,body,status,created_at').eq('status','approved').order('created_at',{ascending:false}).limit(MAX)
+    ]).then(function(rs){
+      if (!rs[0].error) settings = rs[0].data;
+      if (!rs[1].error) { msgs = {}; order = []; rs[1].data.slice().reverse().forEach(upsert); }
+      renderSettings();
+    });
+  }
+  loadAll();
+  var ch = sb.channel('screen')
+    .on('postgres_changes',{event:'*',schema:'public',table:'stage_messages'},function(p){
+      if (p.eventType === 'DELETE') { delete msgs[p.old.id]; order = order.filter(function(i){return i!==p.old.id;}); }
+      else upsert(p.new);
+      renderWall(); renderFeat();
+    })
+    .on('postgres_changes',{event:'*',schema:'public',table:'stage_settings'},function(p){ if (p.new) { settings = p.new; renderSettings(); } })
+    .subscribe(function(s){ $('st').textContent = s; if (s === 'SUBSCRIBED') loadAll(); });
+  // 안전망: 60초마다 재동기화 (Realtime 끊김 대비)
+  setInterval(loadAll, 60000);
+  // 마우스 움직이면 커서 잠깐 표시, F 키 전체화면
+  var hideT; document.addEventListener('mousemove', function(){ document.body.classList.add('showcursor'); clearTimeout(hideT); hideT = setTimeout(function(){ document.body.classList.remove('showcursor'); }, 2000); });
+  document.addEventListener('keydown', function(e){ if (e.key === 'f' || e.key === 'F') { if (document.fullscreenElement) document.exitFullscreen(); else document.documentElement.requestFullscreen(); } });
+})();
+</script></body></html>

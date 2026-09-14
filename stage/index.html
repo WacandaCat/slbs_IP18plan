@@ -1,0 +1,72 @@
+<!DOCTYPE html><html lang="ko"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex"><link rel="icon" href="data:,">
+<title>무대에 메시지 보내기</title>
+<link rel="stylesheet" href="common.css">
+<style>
+.counter{font-size:12px;color:var(--mut);text-align:right;margin-top:4px}
+.mine h2{font-size:13px;color:var(--sub);margin:26px 0 8px;letter-spacing:.04em;text-transform:uppercase}
+</style></head><body>
+<div class="wrap">
+  <h1 id="title">무대에 메시지를 보내주세요</h1>
+  <p class="sub" id="desc">보낸 메시지는 무대 화면에 표시됩니다.</p>
+  <form id="f">
+    <div class="field"><label for="nm">이름 (선택)</label><input type="text" id="nm" maxlength="20" placeholder="예: 3층 A열 민지" autocomplete="nickname"></div>
+    <div class="field"><label for="bd">메시지</label><textarea id="bd" maxlength="200" placeholder="응원, 신청곡, 축하 한마디…" required></textarea><div class="counter"><span id="cnt">0</span>/200</div></div>
+    <button class="btn pri blk" id="send" type="submit">보내기</button>
+    <div class="hint" id="hint"></div>
+  </form>
+  <div class="mine" id="mine" hidden><h2>내가 보낸 메시지</h2><div id="minelist"></div></div>
+</div>
+<div class="toast" id="toast"></div>
+<script src="vendor/supabase.js"></script><script src="config.js"></script>
+<script>
+(function(){
+  var sb = supabase.createClient(STAGE_CONFIG.url, STAGE_CONFIG.key);
+  var $ = function(id){ return document.getElementById(id); };
+  var cid; try { cid = localStorage.getItem('stage_cid'); if(!cid){ cid = Math.random().toString(36).slice(2)+Date.now().toString(36); localStorage.setItem('stage_cid', cid);} } catch(e){ cid = 'x'+Date.now(); }
+  var mineIds = []; try { mineIds = JSON.parse(localStorage.getItem('stage_mine')||'[]'); } catch(e){}
+  var settings = { moderation: true, paused: false };
+  function toast(m){ var t=$('toast'); t.textContent=m; t.classList.add('on'); clearTimeout(t._h); t._h=setTimeout(function(){t.classList.remove('on');},2200); }
+  function esc(s){ return String(s).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+  function applySettings(s){
+    settings = s;
+    $('title').textContent = s.title || '무대에 메시지를 보내주세요';
+    $('hint').textContent = s.moderation ? '운영자 확인 후 무대 화면에 표시됩니다.' : '보내면 바로 무대 화면에 표시됩니다.';
+  }
+  $('bd').addEventListener('input', function(){ $('cnt').textContent = this.value.length; });
+  $('f').addEventListener('submit', function(e){
+    e.preventDefault();
+    var body = $('bd').value.trim(); if(!body) return;
+    var name = $('nm').value.trim();
+    $('send').disabled = true;
+    sb.from('stage_messages').insert({ name: name, body: body, client_id: cid }).select('id,status').single()
+      .then(function(r){
+        $('send').disabled = false;
+        if (r.error) { toast('전송 실패: ' + r.error.message); return; }
+        $('bd').value=''; $('cnt').textContent='0';
+        try { localStorage.setItem('stage_name', name); } catch(e){}
+        mineIds.unshift(r.data.id); mineIds = mineIds.slice(0, 20);
+        try { localStorage.setItem('stage_mine', JSON.stringify(mineIds)); } catch(e){}
+        toast(r.data.status === 'approved' ? '무대에 올라갔어요!' : '보냈어요! 확인 후 표시돼요');
+        loadMine();
+      });
+  });
+  try { $('nm').value = localStorage.getItem('stage_name') || ''; } catch(e){}
+  function loadMine(){
+    if(!mineIds.length) return;
+    sb.from('stage_messages').select('id,name,body,status,created_at').in('id', mineIds).order('created_at',{ascending:false}).then(function(r){
+      if (r.error || !r.data.length) return;
+      $('mine').hidden = false;
+      var L = { pending:'확인 대기', approved:'무대 표시됨', rejected:'표시 안 됨' };
+      $('minelist').innerHTML = r.data.map(function(m){
+        return '<div class="card">'+(m.name?'<div class="nm">'+esc(m.name)+'</div>':'')+'<div class="bd">'+esc(m.body)+'</div><div class="st"><span class="pill '+m.status+'">'+L[m.status]+'</span></div></div>';
+      }).join('');
+    });
+  }
+  sb.from('stage_settings').select('*').eq('id',1).single().then(function(r){ if(!r.error) applySettings(r.data); });
+  sb.channel('aud').on('postgres_changes',{event:'*',schema:'public',table:'stage_settings'},function(p){ if(p.new) applySettings(p.new); })
+    .on('postgres_changes',{event:'*',schema:'public',table:'stage_messages'},function(){ loadMine(); }).subscribe();
+  loadMine();
+})();
+</script></body></html>

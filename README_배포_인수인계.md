@@ -89,3 +89,15 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
   3. GitHub Settings → Pages 에서 도메인 확인되면 "Enforce HTTPS" 체크(인증서 발급 10분~1시간).
   4. 이후 주소: `https://nfc.slashbslash.ai/linhotel` 등. 기존 github.io 주소는 새 도메인으로 리다이렉트됨(허브 포함).
 - 주의: Pages는 저장소당 도메인 1개. 클라이언트별 서브도메인(linhotel.slashbslash.ai …)을 원하면 저장소를 클라이언트별로 쪼개야 함.
+
+## 공연장 메시지 보드 (stage/)
+- 관객 `stage/` → 무대 화면 `stage/screen/` → 운영 `stage/admin/`. 전부 정적 HTML + Supabase(Realtime).
+- 백엔드: Supabase 프로젝트 **ansim-care** (`lcdpaoiideovebozldjw`, 서울). 테이블 `stage_messages`, `stage_settings`(단일 행),
+  비공개 `stage_private.config`(운영자 비밀번호). 변경은 전부 RPC `stage_admin(pwd, action, payload)`로만(RLS: anon은 insert/select만).
+  마이그레이션 이름 `stage_message_init`. 연결 정보는 `stage/config.js`(publishable 키, 공개용).
+- 검수 토글: `stage_settings.moderation`. 삽입 트리거가 켜짐이면 pending, 꺼짐이면 approved로 강제.
+- 운영자 초기 비밀번호 `stage2026` → 운영 화면에서 변경 가능(RPC set_password).
+- 무대 화면: 승인 메시지 최근 40개 버블, `featured_id`가 있으면 그 메시지를 크게. `paused`면 QR 대기 화면. F키 전체화면. 60초마다 재동기화.
+- 초기화(reset): 메시지 전부 삭제 + featured 해제. 회차 바뀔 때 사용.
+- 라이브러리: `stage/vendor/supabase.js`(supabase-js 2 UMD), `qrcode.js`(qrcode-generator). CDN 안 씀.
+- ⚠ 실수로 만든 Supabase 프로젝트 `stage-message`(ukcdryfutzfbbgcllhxn, 월 $10)는 대시보드에서 삭제 필요. API로는 Pro 프로젝트 일시정지/삭제 불가.
