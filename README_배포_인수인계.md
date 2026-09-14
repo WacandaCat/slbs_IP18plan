@@ -97,7 +97,7 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
   마이그레이션 이름 `stage_message_init`. 연결 정보는 `stage/config.js`(publishable 키, 공개용).
 - 검수 토글: `stage_settings.moderation`. 삽입 트리거가 켜짐이면 pending, 꺼짐이면 approved로 강제.
 - 운영자 초기 비밀번호 `stage2026` → 운영 화면에서 변경 가능(RPC set_password).
-- 무대 화면(live-text.app 스타일): 크림 배경, 파스텔 포스트잇 카드 매소너리(5열, 최신이 앞, 최대 30개), 카드 라벨 `MESSAGE #seq · 이름`.
+- 무대 화면(live-text.app 스타일): 검은 배경 + 어두운 유리 카드(포인트 색 바) 매소너리. `?theme=light`면 크림 배경·파스텔 카드(5열, 최신이 앞, 최대 30개), 카드 라벨 `MESSAGE #seq · 이름`.
   `seq`는 DB identity 컬럼(리셋 시 1부터 재시작). 크게 보기는 제목 아래 가로 배너: 운영자 화면의 '크게 보기'(DB featured_id) 또는
   **무대 화면에서 카드 클릭**(그 화면에서만, 배너 클릭/Esc로 닫힘). `paused`면 QR 대기 화면. F키 전체화면. 60초마다 재동기화.
 - 초기화(reset): 메시지 전부 삭제 + featured 해제. 회차 바뀔 때 사용.
