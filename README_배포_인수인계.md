@@ -79,3 +79,13 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
 - 타이중 박람회 굿즈용 NFC 카드 페이지 4종(린호텔·康茵行旅·味噌文化館·暨南大學). 상세는 `tw-nfc/HANDOFF.md`.
 - 빌드: `cd tw-nfc && python3 data3.py`. 배포물은 `tw-nfc/dist/` (정적). 허브 index.html에서 링크.
 - Pages URL: `https://wacandacat.github.io/slbs_IP18plan/tw-nfc/dist/` (main 머지 후).
+
+## 대만 NFC 안내 페이지 (tw-nfc/) + 커스텀 도메인
+- 소스: `tw-nfc/data3.py` → `tw-nfc/dist/`(정적). 상세는 `tw-nfc/HANDOFF.md`.
+- 짧은 주소 스텁: 루트의 `linhotel/ cominplace/ miso/ ncnu/` 는 `tw-nfc/dist/<slug>.html`로 즉시 리다이렉트(상대경로라 github.io·커스텀 도메인 모두 동작).
+- 커스텀 도메인 절차(예: `nfc.slashbslash.ai`):
+  1. DNS에 CNAME `nfc` → `wacandacat.github.io` 추가.
+  2. 루트에 `CNAME` 파일(내용: `nfc.slashbslash.ai` 한 줄) 커밋 → main→gh-pages 미러링으로 반영.
+  3. GitHub Settings → Pages 에서 도메인 확인되면 "Enforce HTTPS" 체크(인증서 발급 10분~1시간).
+  4. 이후 주소: `https://nfc.slashbslash.ai/linhotel` 등. 기존 github.io 주소는 새 도메인으로 리다이렉트됨(허브 포함).
+- 주의: Pages는 저장소당 도메인 1개. 클라이언트별 서브도메인(linhotel.slashbslash.ai …)을 원하면 저장소를 클라이언트별로 쪼개야 함.
