@@ -97,7 +97,9 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
   마이그레이션 이름 `stage_message_init`. 연결 정보는 `stage/config.js`(publishable 키, 공개용).
 - 검수 토글: `stage_settings.moderation`. 삽입 트리거가 켜짐이면 pending, 꺼짐이면 approved로 강제.
 - 운영자 초기 비밀번호 `stage2026` → 운영 화면에서 변경 가능(RPC set_password).
-- 무대 화면: 승인 메시지 최근 40개 버블, `featured_id`가 있으면 그 메시지를 크게. `paused`면 QR 대기 화면. F키 전체화면. 60초마다 재동기화.
+- 무대 화면(live-text.app 스타일): 크림 배경, 파스텔 포스트잇 카드 매소너리(5열, 최신이 앞, 최대 30개), 카드 라벨 `MESSAGE #seq · 이름`.
+  `seq`는 DB identity 컬럼(리셋 시 1부터 재시작). 크게 보기는 제목 아래 가로 배너: 운영자 화면의 '크게 보기'(DB featured_id) 또는
+  **무대 화면에서 카드 클릭**(그 화면에서만, 배너 클릭/Esc로 닫힘). `paused`면 QR 대기 화면. F키 전체화면. 60초마다 재동기화.
 - 초기화(reset): 메시지 전부 삭제 + featured 해제. 회차 바뀔 때 사용.
 - 라이브러리: `stage/vendor/supabase.js`(supabase-js 2 UMD), `qrcode.js`(qrcode-generator). CDN 안 씀.
 - ⚠ 실수로 만든 Supabase 프로젝트 `stage-message`(ukcdryfutzfbbgcllhxn, 월 $10)는 대시보드에서 삭제 필요. API로는 Pro 프로젝트 일시정지/삭제 불가.
