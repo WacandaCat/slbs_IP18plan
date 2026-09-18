@@ -103,3 +103,11 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
 - 초기화(reset): 메시지 전부 삭제 + featured 해제. 회차 바뀔 때 사용.
 - 라이브러리: `stage/vendor/supabase.js`(supabase-js 2 UMD), `qrcode.js`(qrcode-generator). CDN 안 씀.
 - ⚠ 실수로 만든 Supabase 프로젝트 `stage-message`(ukcdryfutzfbbgcllhxn, 월 $10)는 대시보드에서 삭제 필요. API로는 Pro 프로젝트 일시정지/삭제 불가.
+
+## 기기 분기 페이지 (go/)
+- `https://nfc.slashbslash.ai/go` — 접속 기기 판별 후 즉시 이동. 정적 HTML 한 장, 서버 없음.
+  - iPhone / iPad(맥으로 위장한 iPadOS 포함) → `https://humetro.slashbslash.ai/`
+  - 갤럭시(안드로이드 UA에 SM-xxxx / SAMSUNG / SamsungBrowser, 또는 Chrome Client Hints 모델명이 SM-) → `https://slbs.shop/slbs/pages/galaxy-theme.html`
+  - 그 외(다른 안드로이드·PC) → iPhone / Galaxy 선택 버튼 화면
+- 테스트용 파라미터: `?stay=1`(이동하지 않고 판별 결과 표시), `?debug=1`(UA 표시), `?force=iphone|galaxy`(강제).
+- 목적지 URL은 `go/index.html` 상단 상수 `IPHONE`, `GALAXY` 두 줄만 고치면 됨.
