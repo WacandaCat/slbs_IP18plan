@@ -27,48 +27,74 @@ p{color:var(--sub);font-size:14px;margin:0 0 22px}
 </div>
 <script>
 (function(){
-  var IPHONE = 'https://humetro.slashbslash.ai/';
-  var GALAXY = 'https://apps.samsung.com/theme/ProductDetail.as?appId=SLBS.ShiningGwanganStation';
+  // 브랜드별 목적지. 없는 브랜드는 선택 화면으로.
+  var ROUTES = {
+    apple:   'https://humetro.slashbslash.ai/',
+    samsung: 'https://apps.samsung.com/theme/ProductDetail.as?appId=SLBS.ShiningGwanganStation'
+    // sony: '...', oppo: '...', huawei: '...', xiaomi: '...', google: '...'  ← 필요 시 추가
+  };
   var q = new URLSearchParams(location.search);
   var ua = navigator.userAgent || '';
   var uad = navigator.userAgentData;
   var info = { ua: ua, touch: navigator.maxTouchPoints || 0, platform: (uad && uad.platform) || navigator.platform || '' };
 
   function isIOS(){
-    if (/iPhone|iPod/.test(ua)) return true;
-    if (/iPad/.test(ua)) return true;
-    // iPadOS 13+ 사파리는 Mac으로 위장 → 터치 포인트로 구분
-    return /Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1;
+    if (/iPhone|iPod|iPad/.test(ua)) return true;
+    return /Macintosh/.test(ua) && (navigator.maxTouchPoints || 0) > 1; // iPadOS 13+ 위장
   }
-  function isSamsungUA(){ return /Android/i.test(ua) && /(SM-[A-Z]\d|SAMSUNG|SamsungBrowser|GT-[INS]\d|SHV-E|SCH-|SGH-)/i.test(ua); }
   function isAndroid(){ return /Android/i.test(ua) || (uad && uad.platform === 'Android'); }
 
-  function go(kind, why){
-    info.result = kind; info.why = why;
-    if (q.get('stay') === '1') { show(kind); return; }
-    var url = kind === 'iphone' ? IPHONE : kind === 'galaxy' ? GALAXY : null;
-    if (!url) { show(kind); return; }
-    location.replace(url);
+  // 모델 문자열(UA 또는 Client Hints) → 브랜드
+  var BRANDS = [
+    ['samsung',  /(SM-[A-Z]\d|SAMSUNG|SamsungBrowser|GT-[INS]\d|SHV-E|SCH-[IRS]|SGH-)/i],
+    ['sony',     /(Xperia|XQ-[A-Z]{2}\d|SO-\d{2}[A-Z]|SOV\d{2}|SOG\d{2}|\bSony\b)/i],
+    ['oppo',     /(\bOPPO\b|CPH\d{4}|PE[A-Z]M\d{2}|PD[A-Z]M\d{2}|PF[A-Z]M\d{2}|PG[A-Z]M\d{2}|PH[A-Z]M\d{2}|\bA\d{2,3}[a-z]?\b.*OPPO)/i],
+    ['realme',   /(realme|RMX\d{4})/i],
+    ['oneplus',  /(OnePlus|ONEPLUS|\b(KB|LE|NE|CPH2\d{3}|IN|BE|DN|EB|GM|HD|AC|IV)\d{4}\b(?=.*OnePlus)|A\d{4}(?=.*ONEPLUS))/i],
+    ['huawei',   /(HUAWEI|HarmonyOS|HMSCore|\b(ELS|ANA|NOH|LIO|VOG|ELE|MAR|POT|STK|JNY|ANE|CLT|EML|MHA|BLA|LYA|EVR|TAS|OCE|NOP|JAD|BAL|ANG|CDY|AQM|MED|DUB|JAT|ART|MRD|DRA|YAL|SEA|PCT|VCE|INE|LLD|COL|BKL|FIG|LDN|SLA|WAS|DIG|DLI|CAM|VNS|ATU|NEM|FLA|TRT|AGS|KOB|BAH|CMR|SCM|MRX|TAH|OSN|WLZ|GLA|CET|NEN|ALP|LON|MON|VTR|VKY|PAR|HRY|STF|RNE|LND|VIE|PLK|NXT|HWI|EDI|ALE|CHM|PE-|MT7|BND|CAN|LYO|AUM|CRO|JKM|POT|TNY|ALP)-[A-Z]{2}\d{2}\b)/i],
+    ['honor',    /(HONOR|\b(ANY|NTH|CMA|TFY|HRY|LRA|JAT|COL|BKL|DUK|NEM|PLK|KIW|SCL|STF|CAM|NEM|PRA|BND|LLD|BKK|JSN|HLK|YAL|OXF|EBG|ELZ|VNE|RMO|CRT|MGI|MGA|GDL|FNE|NEN|ALI|ALT|CRT|RKY|RMO|VNE|WDY|PGT|MAA|BVL|ALA|ELP|ANY|FRI|PGT)-[A-Z]{2}\d{2}\b(?=.*HONOR))/i],
+    ['xiaomi',   /(Xiaomi|\bMI\s?\d|Redmi|POCO|\bM2\d{3}[A-Z0-9]+\b|\b2\d{6,7}[A-Z]{1,3}\b|MIUI)/i],
+    ['google',   /(\bPixel\b|Nexus)/i],
+    ['lg',       /(\bLG[-\s]|LM-[A-Z]\d{3}|LGM-|\bLGE\b)/i],
+    ['motorola', /(\bmoto\b|Motorola|XT\d{4})/i],
+    ['vivo',     /(\bvivo\b|\bV\d{4}[A-Z]?\b(?=.*vivo)|iQOO)/i],
+    ['nothing',  /(Nothing Phone|\bA0\d{2}\b(?=.*Nothing))/i],
+    ['asus',     /(ASUS|ZenFone|ROG Phone|\bAI\d{4}\b|\bZS\d{3}[A-Z]{2}\b)/i]
+  ];
+  function brandOf(str){
+    for (var i = 0; i < BRANDS.length; i++) if (BRANDS[i][1].test(str)) return BRANDS[i][0];
+    return null;
   }
-  function show(kind){
+
+  function finish(brand, why){
+    info.brand = brand || 'unknown'; info.why = why;
+    var url = brand && ROUTES[brand];
+    if (url && q.get('stay') !== '1') { location.replace(url); return; }
+    show();
+  }
+  function show(){
     document.getElementById('wait').hidden = true;
     document.getElementById('pick').hidden = false;
-    document.getElementById('bi').href = IPHONE; document.getElementById('bg').href = GALAXY;
+    document.getElementById('bi').href = ROUTES.apple; document.getElementById('bg').href = ROUTES.samsung;
     if (q.get('stay') === '1' || q.get('debug') === '1') { var d = document.getElementById('dbg'); d.hidden = false; d.textContent = JSON.stringify(info); }
   }
 
   var force = q.get('force');
-  if (force === 'iphone' || force === 'galaxy') return go(force, 'force');
-  if (isIOS()) return go('iphone', 'ua');
-  if (isSamsungUA()) return go('galaxy', 'ua');
-  if (isAndroid() && uad && uad.getHighEntropyValues) {
-    // Chrome/안드로이드: UA에 모델명이 없을 때 Client Hints로 한 번 더 확인
-    uad.getHighEntropyValues(['model','platform']).then(function(h){
+  if (force === 'iphone') force = 'apple'; if (force === 'galaxy') force = 'samsung';
+  if (force) return finish(force, 'force');
+  if (isIOS()) return finish('apple', 'ios');
+  if (!isAndroid()) return finish(null, 'desktop');
+
+  var b = brandOf(ua);
+  if (b) return finish(b, 'ua');
+  // 크롬(안드로이드)은 UA 모델명을 'K'로 가리므로 Client Hints에서 모델명 조회
+  if (uad && uad.getHighEntropyValues) {
+    uad.getHighEntropyValues(['model']).then(function(h){
       info.model = h.model || '';
-      if (/^SM-|Samsung/i.test(info.model)) go('galaxy', 'hint'); else go('other', 'android-other');
-    }).catch(function(){ go('other', 'android-unknown'); });
+      finish(brandOf(info.model + ' ' + ua), info.model ? 'hint' : 'hint-empty');
+    }).catch(function(){ finish(null, 'hint-fail'); });
     return;
   }
-  go('other', isAndroid() ? 'android-other' : 'desktop');
+  finish(null, 'android-unknown');
 })();
 </script></body></html>

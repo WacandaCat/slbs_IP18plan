@@ -110,4 +110,7 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
   - 갤럭시(안드로이드 UA에 SM-xxxx / SAMSUNG / SamsungBrowser, 또는 Chrome Client Hints 모델명이 SM-) → `https://apps.samsung.com/theme/ProductDetail.as?appId=SLBS.ShiningGwanganStation` (갤럭시 테마 스토어)
   - 그 외(다른 안드로이드·PC) → iPhone / Galaxy 선택 버튼 화면
 - 테스트용 파라미터: `?stay=1`(이동하지 않고 판별 결과 표시), `?debug=1`(UA 표시), `?force=iphone|galaxy`(강제).
-- 목적지 URL은 `go/index.html` 상단 상수 `IPHONE`, `GALAXY` 두 줄만 고치면 됨.
+- 브랜드 판별: apple / samsung / sony / oppo / realme / oneplus / huawei / honor / xiaomi / google / lg / motorola / vivo / nothing / asus.
+  UA의 모델 코드(SM-, XQ-, CPH, ELS-NX9, 2211133C …)로 잡고, 크롬(안드로이드)은 UA 모델이 'K'로 가려지므로 Client Hints(`getHighEntropyValues(['model'])`)로 재조회.
+  파이어폭스(안드로이드)는 모델을 안 주므로 unknown → 선택 화면.
+- 목적지는 `go/index.html` 상단 `ROUTES` 표. 브랜드 키에 URL 한 줄 추가하면 그 브랜드도 자동 이동(예: `sony: 'https://…'`). 표에 없는 브랜드는 선택 화면.
