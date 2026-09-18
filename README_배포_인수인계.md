@@ -107,7 +107,7 @@ vercel --prod    # 프레임워크 없음(Other), 빌드 커맨드 없음, 루�
 ## 기기 분기 페이지 (go/)
 - `https://nfc.slashbslash.ai/go` — 접속 기기 판별 후 즉시 이동. 정적 HTML 한 장, 서버 없음.
   - iPhone / iPad(맥으로 위장한 iPadOS 포함) → `https://humetro.slashbslash.ai/`
-  - 갤럭시(안드로이드 UA에 SM-xxxx / SAMSUNG / SamsungBrowser, 또는 Chrome Client Hints 모델명이 SM-) → `https://slbs.shop/slbs/pages/galaxy-theme.html`
+  - 갤럭시(안드로이드 UA에 SM-xxxx / SAMSUNG / SamsungBrowser, 또는 Chrome Client Hints 모델명이 SM-) → `https://apps.samsung.com/theme/ProductDetail.as?appId=SLBS.ExcitementBusanStation` (갤럭시 테마 스토어)
   - 그 외(다른 안드로이드·PC) → iPhone / Galaxy 선택 버튼 화면
 - 테스트용 파라미터: `?stay=1`(이동하지 않고 판별 결과 표시), `?debug=1`(UA 표시), `?force=iphone|galaxy`(강제).
 - 목적지 URL은 `go/index.html` 상단 상수 `IPHONE`, `GALAXY` 두 줄만 고치면 됨.
